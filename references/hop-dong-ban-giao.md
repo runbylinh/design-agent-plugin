@@ -38,9 +38,13 @@ báo người dùng để Agent 01 sửa (`sheet move CT-… "Cần sửa chữ"
 Đổi → liệt kê phần sửa/thêm/bỏ + đồ hoạ bị ảnh hưởng → đề xuất giữ/sửa/thêm/bỏ → bản mới chờ duyệt. Không tự thay file đã bàn giao.
 
 ## 5. Agent 02 → Agent 03 Video (Graphic Pack)
-Thư mục Drive `Approved Designs/<BRAND>/<YYYY-MM>/<DS>/`: `DS-…-SC-xx.png` (trong suốt) + `huong-dan-dat.md` + `design.json` + `manifest.json`.
+Thư mục Drive `Media Assets/02 Final/<YYYY-MM>/<DS-… · tên>/`: `DS-…-SC-xx.png` (trong suốt) + `_nguon/` (`huong-dan-dat.md`, `design.json`, `manifest.json`).
 Agent Video nhận link thư mục (hoặc đường dẫn `approved/` nếu cùng máy).
 
-## 6. Mã
+## 6. Sheet "Hệ thống Design ảnh" của Agent 02
+Mỗi phiếu TASK nhận về có một dòng DS ở tab 01 Brief & Việc (cột TASK ID, CT ID). Brief chép sang **chỉ đọc**.
+Link Final ghi vào cả tab 01 (Sheet ảnh) và cột Link file hoàn chỉnh (04 Production).
+
+## 7. Mã
 - Job: `DS-YYMMDD-NN` (Agent 02 tự cấp, kể cả việc trực tiếp không có Content ID).
 - Tài nguyên: `AS-NNN`.

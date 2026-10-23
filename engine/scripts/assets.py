@@ -22,6 +22,9 @@ from pathlib import Path
 from common import RUNTIME, die, find_studio, info, read_json, slug, studio_config, warn, write_json
 
 IMG = (".png", ".jpg", ".jpeg", ".webp", ".svg", ".gif", ".heic")
+NHOM_LOAI = {"Logo & nhận diện": "logo", "Người": "anh", "Sản phẩm - Dịch vụ": "anh", "Bối cảnh": "anh",
+             "Đồ hoạ & thành phần": "element", "Tham khảo": "mau", "Theo việc": "anh"}
+LOAI_NHOM = {"logo": "Logo & nhận diện", "element": "Đồ hoạ & thành phần", "mau": "Tham khảo", "anh": "Người"}
 
 
 def opt(args, name, default=None):
@@ -45,8 +48,18 @@ def load_all():
         for it in read_json(r, {"items": []}).get("items", []):
             it["_reg"] = str(r)
             items.append(it)
-    # Brand Kit: logo/ và anh-mau/ tự coi là tài nguyên dù chưa đăng ký
+    # tab 02 Source của Sheet (bộ đệm sau `ia sheet pull Source`)
+    import tracker
     cfg = studio_config()
+    if tracker.connected(cfg):
+        have = {it.get("id") for it in items}
+        for r in tracker.cache("Source", cfg)["rows"]:
+            if r.get("AS ID") and r["AS ID"] not in have:
+                items.append({"id": r["AS ID"], "loai": NHOM_LOAI.get(r.get("Nhóm", ""), "anh"), "nhom": r.get("Nhóm", ""),
+                              "ten": r.get("Tên", ""), "file": "", "drive_id": r.get("Drive File ID", ""), "link": r.get("Link Drive", ""),
+                              "tag": [t.strip() for t in str(r.get("Tag", "")).split(",") if t.strip()], "brand": "",
+                              "trang_thai": r.get("Trạng thái", ""), "quyen": r.get("Quyền dùng", "Chưa rõ"), "_reg": "(Sheet 02 Source)"})
+    # Brand Kit: logo/ và anh-mau/ tự coi là tài nguyên dù chưa đăng ký
     known = {it.get("file") for it in items}
     for name, d in cfg.get("brand_kits", {}).items():
         d = Path(d).expanduser()
@@ -86,7 +99,7 @@ def find(args):
         info("Không thấy tài nguyên khớp. Báo người dùng thiếu tài nguyên — không tự lấy ảnh không liên quan.")
         return 1
     for s, it in hits[:15]:
-        where = it.get("file") or ("drive:" + it.get("drive_id", ""))
+        where = it.get("file") or it.get("link") or ("drive:" + it.get("drive_id", ""))
         exists = "" if not it.get("file") or Path(it["file"]).expanduser().exists() else "  ⚠️ file không còn trên máy"
         info(f"{it.get('id') or '—':7s} [{it.get('loai')}] {it.get('ten')}  · tag: {', '.join(it.get('tag', []))}"
              f"  · {it.get('trang_thai', '')} · quyền {it.get('quyen', 'chua-ro')}\n         {where}{exists}")
@@ -102,7 +115,11 @@ def add(args):
         die(f"Không thấy {f}")
     reg = Path(studio_config()["_dir"]) / "_assets.json"
     data = read_json(reg, {"items": []})
-    n = 1 + max([int(x["id"].split("-")[1]) for x in data["items"] if x.get("id", "").startswith("AS-")] or [0])
+    import tracker
+    ids = [x["id"] for x in data["items"] if x.get("id", "").startswith("AS-")]
+    if tracker.connected():
+        ids += [r["AS ID"] for r in tracker.cache("Source")["rows"] if str(r.get("AS ID", "")).startswith("AS-")]
+    n = 1 + max([int(i.split("-")[1]) for i in ids if i.split("-")[1].isdigit()] or [0])
     it = {"id": f"AS-{n:03d}", "loai": opt(args, "--loai") or die("Thiếu --loai"), "ten": opt(args, "--ten", f.stem),
           "file": str(f.resolve()) if f.exists() else "", "drive_id": drive_id,
           "tag": [t.strip() for t in (opt(args, "--tag", "")).split(",") if t.strip()],
@@ -110,7 +127,17 @@ def add(args):
           "quyen": opt(args, "--quyen", "chua-ro"), "phien_ban": opt(args, "--phien-ban", "v1")}
     data["items"].append(it)
     write_json(reg, data)
+    import tracker
+    from common import now
+    nhom = opt(args, "--nhom", LOAI_NHOM.get(it["loai"], "Người"))
+    link = opt(args, "--link", f"https://drive.google.com/file/d/{drive_id}/view" if drive_id else "")
+    quyen = {"noi-bo": "Nội bộ", "thuong-mai": "Thương mại"}.get(it["quyen"], "Chưa rõ")
+    tracker.upsert("Source", it["id"], {"Nhóm": nhom, "Tên": it["ten"], "Tag": ", ".join(it["tag"]), "Link Drive": link,
+                                        "Drive File ID": drive_id, "Quyền dùng": quyen,
+                                        "Trạng thái": "Đã duyệt" if it["trang_thai"] == "Đã duyệt" else "Chưa kiểm",
+                                        "Người cung cấp": opt(args, "--nguoi", ""), "Ngày thêm": now()[:10]})
     info(f"Đã đăng ký {it['id']} — {it['ten']}")
+    tracker.hint_push()
     return 0
 
 

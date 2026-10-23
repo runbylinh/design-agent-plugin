@@ -292,4 +292,12 @@ def main(args):
     m["trang_thai"] = "Chờ duyệt" if not total_err else "Đang làm"
     log(m, f"dựng v{v}{' (' + str(len(targets)) + ' hướng)' if len(targets) > 1 else ''}: {total_err} lỗi, {total_warn} cảnh báo")
     save_manifest(m)
+    import tracker
+    note = (ver or {}).get("ghi_chu", "")
+    tracker.upsert("Viec", m["design_id"], {"Trạng thái": m["trang_thai"], "Bản đang làm": f"v{v}"})
+    tracker.recap(m["design_id"], v, "Dựng",
+                  f"Dựng v{v}" + (f" — {len(targets)} hướng ({', '.join(t.name.replace('huong-', '').upper() for t in targets)})" if len(targets) > 1 else "")
+                  + (f" · {note}" if note and note != "bản đầu" else ""),
+                  qa_may=f"{total_err} lỗi, {total_warn} cảnh báo")
+    tracker.hint_push()
     return 1 if total_err else 0

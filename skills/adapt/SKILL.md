@@ -9,6 +9,7 @@ allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read, Write, Ed
 # Đổi kích thước · Nhân bản · Mẫu (D06, D08)
 
 **Lệnh `ia`** = `${CLAUDE_PLUGIN_ROOT}/bin/ia`. Đọc: `references/nguyen-tac.md`, `design-json.md`, `formats/<loại đích>.md`.
+Sheet "Hệ thống Design ảnh": pull đầu phiên, `ia sheet push` sau khi xong và trước khi trình duyệt (mỗi bản mới, góp ý, duyệt, bàn giao tự vào tab 01/03) — `references/media-assets.md`.
 
 ## Đổi kích thước (D06) — dàn lại, không kéo giãn
 1. `ia resize DS --preset <khổ> [--layout <bố cục>]` → job mới, cùng nội dung (chữ khoá giữ mốc cũ), bố cục lấy biến thể đúng tỉ lệ mới.

@@ -9,7 +9,7 @@
 ## Hình ảnh
 5. Không bịa ảnh sản phẩm/người thật bằng AI. AI tạo ảnh (Higgsfield) chỉ cho **nền, hoạ tiết, chất liệu** — và không bao giờ để AI viết chữ lên ảnh.
 6. Ảnh tham khảo (D07): chỉ học **cấu trúc** (vị trí khối, phân cấp, nhịp). Không lấy ảnh, minh hoạ, nhân vật, logo, màu nhận diện của bên khác.
-7. Ảnh người: chỉ dùng ảnh người dùng/Media Assets cung cấp và được phép dùng (registry `quyen`). `chua-ro` + dùng cho quảng cáo → hỏi.
+7. Ảnh người: chỉ dùng ảnh người dùng/Media Assets cung cấp và được phép dùng (cột Quyền dùng ở tab 02 Source). "Chưa rõ" + dùng cho quảng cáo → hỏi.
 8. Ảnh mạng / ảnh stock không rõ nguồn: không dùng.
 9. Không sửa file gốc trong Drive/Brand Kit: xử lý trên bản sao trong `jobs/DS/assets/`.
 

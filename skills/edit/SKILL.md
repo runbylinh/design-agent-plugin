@@ -9,6 +9,7 @@ allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read, Write, Ed
 # Sửa thiết kế (D05, D15)
 
 **Lệnh `ia`** = `${CLAUDE_PLUGIN_ROOT}/bin/ia`. Đọc: `references/nguyen-tac.md`, `design-json.md` (mục Khoá), `qa.md`.
+Sheet "Hệ thống Design ảnh": pull đầu phiên, `ia sheet push` sau khi xong và trước khi trình duyệt (mỗi bản mới, góp ý, duyệt, bàn giao tự vào tab 01/03) — `references/media-assets.md`.
 
 ## 1. Tìm đúng bản
 `ia job find <DS | CT | TASK | từ khoá>` → `ia job show DS`. Mặc định sửa từ **bản đã duyệt** (`ban_duyet`), không phải bản nháp mới nhất — nói rõ đang sửa từ v nào.

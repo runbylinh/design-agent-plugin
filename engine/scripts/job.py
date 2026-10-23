@@ -56,6 +56,14 @@ def new(args):
               "content_id": m["nguon"]["content_id"], "canvas": {"preset": presets.TYPE_DEFAULT.get(loai, "facebook_4x5")},
               "pages": [{"id": "p1", "elements": []}]}
     write_json(d / "v1" / "design.json", design)
+    import tracker
+    p = presets.get(design["canvas"]["preset"])
+    nguon = {"truc_tiep": "Trực tiếp", "content_brief": "Agent 01 – Content", "video_script": "Agent 01 – Content"}
+    label = tracker.SCHEMA["ma_loai"].get(loai, loai)
+    tracker.upsert("Viec", did, {"Tháng": datetime.now().strftime("%Y-%m"), "Brand": brand or "", "Nguồn": nguon.get(m["nguon"]["che_do"], "Trực tiếp"),
+                                 "CT ID": m["nguon"]["content_id"], "TASK ID": m["nguon"]["task_id"], "Loại ấn phẩm": label,
+                                 "Khổ": f"{p['w']}×{p['h']}", "Tiêu chuẩn áp dụng": label, "Trạng thái": "Mới", "Bản đang làm": "v1",
+                                 "Ghi chú": ten}, cfg)
     info(f"Đã tạo {did} — {ten}  ({d})")
     info(f"Soạn {d}/v1/design.json rồi `ia render {did}`.")
     print(did)
@@ -146,6 +154,9 @@ def version_new(args):
         m["trang_thai"] = "Đang làm"
     log(m, f"tạo v{nv}: {note}")
     save_manifest(m)
+    import tracker
+    tracker.upsert("Viec", m["design_id"], {"Trạng thái": "Đang làm", "Bản đang làm": f"v{nv}"})
+    tracker.recap(m["design_id"], nv, "Sửa", f"Tạo v{nv} từ v{src_v}{' hướng ' + huong if huong else ''}", gop_y=note, quyet_dinh="Sửa tiếp")
     info(f"Đã tạo v{nv} ({note}) → {nd}/design.json")
 
 
@@ -164,6 +175,12 @@ def approve(args):
     m["trang_thai"] = "Đã duyệt"
     log(m, f"duyệt v{v}{' hướng ' + huong if huong else ''}: \"{xn}\"")
     save_manifest(m)
+    import tracker
+    tracker.upsert("Viec", m["design_id"], {"Trạng thái": "Đã duyệt", "Bản duyệt": f"v{v}{' ' + huong.upper() if huong else ''}",
+                                            "Người duyệt": opt(args, "--by", "Người dùng"), "Ngày duyệt": now()[:10]})
+    tracker.recap(m["design_id"], v, "Duyệt", f"Duyệt v{v}{' hướng ' + huong if huong else ''}", gop_y=xn,
+                  quyet_dinh="Chấp nhận lỗi" if qa.get("loi") else "Duyệt")
+    tracker.hint_push()
     info(f"✅ {m['design_id']} duyệt v{v}. Tiếp: `ia export {m['design_id']}`.")
 
 

@@ -135,6 +135,9 @@ def main():
     if cmd in ("export", "check"):
         import export
         return export.main(cmd, rest)
+    if cmd == "sheet":
+        import tracker
+        return tracker.main(rest)
     if cmd in ("cutout", "upscale", "inspect"):
         import cutout
         return cutout.main(cmd, rest)
