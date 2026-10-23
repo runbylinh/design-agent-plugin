@@ -131,6 +131,49 @@ expect_code 0 "link đủ file + đúng dung lượng" "$IA" link "$D1" --url "h
 expect_out "Đã bàn giao" "trạng thái đã bàn giao" "$IA" status --tat-ca
 expect_out "$D1" "tìm job cũ theo tên" "$IA" job find thumbnail
 
+echo "■ Sheet Hệ thống Design ảnh (hàng đợi ghi qua connector)"
+expect_code 0 "nối Sheet" "$IA" sheet connect --url "https://docs.google.com/spreadsheets/d/1AbCdEfGhIjKlMnOpQrStUvWxYz0123456789abcdefg/edit" --media-assets "https://drive.google.com/drive/folders/1FakeMediaAssetsFolderId0000000000" --final-id FINAL123456789012345
+expect_code 0 "kế hoạch tạo cấu trúc" "$IA" sheet init-plan
+"$PY" -c "import json;p=json.load(open('.tracker/init-plan.json'));assert sum('addSheet' in r for r in p['update_spreadsheet'])==4;assert '(' not in json.dumps(p['update_spreadsheet']).split('fields')[1][:5]" && ok "init-plan đủ 4 tab, field mask không dùng ngoặc" || bad "init-plan sai"
+cat > "$T/viec.json" <<'EOF'
+{"range":"'01 Brief & Việc'!A3:Z","values":[["DS ID","Tháng","Brand","Nguồn","CT ID","TASK ID","Loại ấn phẩm","Kênh","Khổ","Brief ảnh","Chữ trên ảnh (đã duyệt)","Tiêu chuẩn áp dụng","Yêu cầu riêng","Hạn","Trạng thái","Bản đang làm","Bản duyệt","Người duyệt","Ngày duyệt","Link source thô","Link final","Ghi chú"],["DS-990101-01","2026-10","demo","Trực tiếp","","","Thumbnail","","","","","","","","Mới","v1","","","","","","ghi chú người dùng"]]}
+EOF
+echo '{"values":[["AS ID","Nhóm","Tên","Tag","Link Drive","Drive File ID","Quyền dùng","Trạng thái","Người cung cấp","Ngày thêm","Dùng trong DS","Ghi chú"],["AS-007","Người","Diễn giả chỉ tay","dien gia, chan dung","https://drive.google.com/file/d/x","x","Nội bộ","Đã duyệt","","","",""]]}' > "$T/source.json"
+echo '{"values":[["DS ID","Phiên bản","Ngày","Bước","Đã làm / đổi gì","Góp ý người dùng","QA máy","QA design-qa","Quyết định","Ghi chú"]]}' > "$T/recap.json"
+expect_out "1 dòng" "pull tab 01" "$IA" sheet pull Viec --file "$T/viec.json"
+"$IA" sheet pull Source --file "$T/source.json" >/dev/null; "$IA" sheet pull Recap --file "$T/recap.json" >/dev/null
+D6=$("$IA" job new --loai facebook --ten "Thử Sheet" | tail -1)
+"$PY" - "$D6" <<'EOF' && ok "job mới → dòng 5 tab 01, có Loại/Trạng thái" || bad "job mới không vào hàng đợi đúng"
+import json, sys
+ob = json.load(open(".tracker/outbox.json"))["ops"]
+op = [o for o in ob if o["tab"] == "Viec" and o["values"].get("DS ID") == sys.argv[1]][0]
+assert op["row"] == 5, op["row"]
+assert op["values"]["Loại ấn phẩm"] == "Ảnh Facebook" and op["values"]["Trạng thái"] == "Mới"
+EOF
+cat > "jobs/$D6/v1/design.json" <<'EOF'
+{"brand":"demo","canvas":{"preset":"facebook_4x5"},"layout":"tieu-de-giua","bg":{"color":"light"},
+ "pages":[{"id":"p1","elements":[{"id":"h","type":"text","role":"hook","content":"Chỉ có chữ","content_locked":true}]}]}
+EOF
+"$IA" render "$D6" >/dev/null 2>&1
+"$PY" -c "
+import json;ob=json.load(open('.tracker/outbox.json'))['ops']
+r=[o for o in ob if o['tab']=='Recap'];assert r and r[0]['row']==4 and r[0]['values']['Bước']=='Dựng', r
+v=[o for o in ob if o['tab']=='Viec' and o['row']==5][0]['values'];assert v['Trạng thái']=='Chờ duyệt', v" && ok "dựng → Recap dòng 4 + trạng thái Chờ duyệt (gộp cùng lệnh)" || bad "recap/trạng thái sai"
+"$IA" approve "$D6" --v 1 --xac-nhan "ok duyệt" >/dev/null
+"$IA" sheet set DS-990101-01 "Trạng thái=Đang làm" >/dev/null
+"$IA" sheet push > "$T/push.txt" 2>&1
+grep -q "'01 Brief & Việc'!O4:P4\|'01 Brief & Việc'!O4:O4" "$T/push.txt" && ok "sửa dòng có sẵn chỉ ghi đúng ô (O4)" || { bad "push ghi sai vùng dòng có sẵn"; grep -n "O4\|A4" "$T/push.txt" | head; }
+grep -q "V4" "$T/push.txt" && bad "ghi đè cột Ghi chú của người dùng" || ok "không đụng ô người dùng tự ghi"
+"$PY" -c "import json,re;t=open('$T/push.txt').read();p=json.loads(t[:t.index('\nClaude')]);assert len(p['calls'])>=3" && ok "push in lệnh update_values" || bad "push không in được lệnh"
+N=$("$PY" -c "import json,re;t=open('$T/push.txt').read();print(len(json.loads(t[:t.index('\nClaude')])['calls']))")
+"$IA" sheet push --xong "$N" >/dev/null
+"$PY" -c "import json;assert json.load(open('.tracker/outbox.json'))['ops']==[]" && ok "push --xong dọn hàng đợi" || bad "hàng đợi chưa dọn"
+"$IA" assets add "$T/anh.jpg" --loai anh --tag "dien gia, san khau" --ten "Diễn giả sân khấu" --quyen noi-bo >/dev/null
+"$PY" -c "
+import json;ob=json.load(open('.tracker/outbox.json'))['ops'];o=[x for x in ob if x['tab']=='Source'][0]
+assert o['values']['AS ID']=='AS-008' and o['row']==5 and o['values']['Quyền dùng']=='Nội bộ', o" && ok "thêm ảnh thô → 02 Source, AS ID nối tiếp Sheet (AS-008)" || bad "Source sai"
+expect_out "AS-007" "tìm ảnh từ tab 02 Source" "$IA" assets find dien gia chi tay
+
 echo
 echo "Kết quả: $PASS đạt · $FAIL lỗi"
 [ "$FAIL" = 0 ]

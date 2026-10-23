@@ -31,14 +31,21 @@ Báo người dùng bản tóm tắt: "Đã học xong: màu …, font …, logo
 Dựng 2–3 mẫu bằng skill design (nội dung thật của brand, ví dụ một thumbnail, một trang carousel, một ảnh chỉ chữ).
 Người dùng góp ý → sửa → thêm quy tắc vào `rules`/brand.md. Duyệt → `ia approve` → `ia template save <DS> --ten <tên> --cho-doi <id…>`.
 
-## 5. Google Drive — Media Assets
-Theo `references/media-assets.md`. Hỏi link thư mục Media Assets (hoặc tìm bằng connector `search_files` `title contains 'Media Assets'`).
-- Kiểm quyền bằng connector Google Drive: tìm được logo, đọc metadata một file mẫu, **thử ghi** một file chữ nhỏ vào thư mục con `_kiem-thu-agent-anh`
-  (`create_file` textContent). Thiếu quyền nào → báo chính xác (đọc / ghi / không thấy thư mục). File thử: báo người dùng, không tự xoá vĩnh viễn.
-- Chế độ: `ia drive setup --che-do thu-cong --url <link Media Assets> --id <folder id>`.
-  Máy có Google Drive for Desktop và người dùng muốn tự động → `--che-do dong-bo --sync-root <thư mục Media Assets trên máy>` rồi `ia assets scan <…>`.
-- Nói rõ giới hạn: connector chỉ chở ảnh ~20KB → ảnh thành phẩm người dùng kéo vào Drive (chế độ thủ công).
-Connector Google Drive chưa kết nối → báo cần bật trong Claude (Settings → Connectors), vẫn dùng được agent, chỉ thiếu bước Drive.
+## 5. Google Drive — Media Assets + Sheet "Hệ thống Design ảnh"
+Theo `references/media-assets.md`. Hỏi link thư mục **Media Assets** (trong thư mục brand của Content Workspace; bộ mẫu đã có sẵn cây thư mục + Sheet).
+1. Connector Google Drive: `search_files parentId = '<Media Assets>'` → tìm Sheet "… | Hệ thống Design ảnh …", `01 Source thô`, `02 Final`;
+   trong đó tìm `07 Theo việc`, `00 Mẫu đã duyệt`. Thiếu thư mục nào → tạo đúng tên trong media-assets.md (chỉ tạo mới, không sửa/chuyển file có sẵn).
+   Thiếu Sheet → `create_file` mimeType spreadsheet tên "<BRAND> | Hệ thống Design ảnh" rồi bước 3 tạo cấu trúc.
+2. `ia sheet connect --url <link Sheet> --media-assets <link Media Assets> --source-id <id 01 Source thô> --final-id <id 02 Final> --theo-viec-id <id 07 Theo việc> --mau-id <id 00 Mẫu đã duyệt>`
+3. Sheet mới, trống → `ia sheet init-plan` → chạy `update_spreadsheet` + các `update_values` trong `.tracker/init-plan.json`. Sheet copy từ bộ mẫu → bỏ qua.
+4. `ia sheet pull-plan` → đọc 4 tab → `ia sheet pull <Tab> --file …` (thiếu cột → báo người dùng).
+5. Kiểm quyền: đọc được Sheet (bước 4), **ghi thử** một file chữ nhỏ `_kiem-thu-agent-anh.txt` vào `02 Final` (`create_file` textContent). Thiếu quyền nào → báo chính xác.
+   File thử: báo người dùng để họ xoá; không tự xoá vĩnh viễn.
+6. `ia drive setup --che-do thu-cong`. Máy có Google Drive for Desktop và người dùng muốn tự động → `--che-do dong-bo --sync-root <Media Assets trên máy>` rồi `ia assets scan <…/01 Source thô>`.
+7. Ảnh thô đang có trong `01 Source thô` → đăng ký vào tab 02 Source: `search_files` từng nhóm → `ia assets add - --drive-id <id> --nhom "<Nhóm>" --ten … --tag … --quyen …`
+   (hỏi người dùng tag tên người cho ảnh Người, quyền dùng) → `ia sheet push`.
+Nói rõ giới hạn: connector chỉ chở ảnh ~20KB → ảnh thành phẩm người dùng kéo vào thư mục Final agent tạo sẵn.
+Connector Google Drive / Google Sheets chưa kết nối → báo cần bật trong Claude (Settings → Connectors); agent vẫn dựng ảnh được, chỉ thiếu phần Drive/Sheet.
 
 ## 6. Agent Content (tuỳ chọn)
 Người dùng có workspace Agent Content → `ia content connect <thư mục có content-studio.json>` → `ia content info` kiểm.

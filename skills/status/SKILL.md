@@ -11,6 +11,7 @@ allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read
 **Lệnh `ia`** = `${CLAUDE_PLUGIN_ROOT}/bin/ia`, chạy trong studio.
 
 ## Tổng quan
+Sheet đã nối → `ia sheet pull-plan` + pull trước (người dùng có thể đã sửa trạng thái/ghi chú trên Sheet), `ia sheet status` (còn lệnh ghi chờ → push). Gửi kèm link Sheet để người dùng xem tab 01/03.
 `ia status` (thêm `--cho-duyet`, `--dang-lam`, `--cho-upload`, `--tat-ca`). Trình ngắn: số việc theo nhóm, việc cần người dùng (chờ duyệt, chờ kéo file lên Drive),
 việc quá hạn (đối chiếu hạn trong `input/brief.json`).
 Job từ Agent Content còn dở → `ia source-check DS` từng job (mã thoát 3 = nguồn đổi → báo, gợi ý skill edit).

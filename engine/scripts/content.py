@@ -152,6 +152,15 @@ def brief(args):
             n["che_do"] = "video_script"
         log(m, f"nhận Brief từ {data['nguon']} ({len(data['phan'])} phần, mã {data['hash_tong']})")
         save_manifest(m)
+        import tracker
+        from_content = data["nguon"].startswith("sheet:")
+        fields = {"Brief ảnh": data["brief"] or data["chu_da_duyet"], "Chữ trên ảnh (đã duyệt)": data["chu_da_duyet"] if from_content else ""}
+        if from_content:
+            fields.update({"Nguồn": "Agent 01 – Content", "CT ID": data["content_id"], "TASK ID": data["task_id"], "Kênh": data["kenh"],
+                           "Hạn": data["han"], "Yêu cầu riêng": data["kich_thuoc"]})
+            fields["Brief ảnh"] = f"[CHỈ ĐỌC — sửa ở Agent Content · bản {data['phien_ban'] or '—'} · mã {data['hash_tong']}]\n" + fields["Brief ảnh"]
+        tracker.upsert("Viec", job, {k: v for k, v in fields.items() if v != ""})
+        tracker.hint_push()
         info(f"Đã lưu {Path(m['_dir']) / 'input' / 'brief.json'}")
     print(json.dumps({k: v for k, v in data.items() if k not in ("chu_da_duyet", "brief")}, ensure_ascii=False, indent=2))
     if data.get("canh_bao"):
@@ -196,6 +205,11 @@ def source_check(args):
     m.setdefault("canh_bao_nguon", []).append({"luc": now(), "sua": changed, "them": added, "bo": removed, "hash_moi": cur["hash_tong"]})
     log(m, f"phát hiện nguồn đổi: sửa {changed}, thêm {added}, bỏ {removed}")
     save_manifest(m)
+    import tracker
+    tracker.recap(m["design_id"], m.get("phien_ban_hien_tai"), "Nguồn đổi",
+                  f"Sửa: {', '.join(changed) or '—'} · Thêm: {', '.join(added) or '—'} · Bỏ: {', '.join(removed) or '—'}"
+                  + (f" · Đồ hoạ ảnh hưởng: {', '.join(a['id'] for a in hit)}" if hit else ""), quyet_dinh="Tạm dừng")
+    tracker.hint_push()
     return 3
 
 

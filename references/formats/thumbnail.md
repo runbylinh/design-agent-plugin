@@ -15,7 +15,7 @@
 
 ## Kiểm tra riêng
 - Mở `xem-dien-thoai.png` (360px): đọc được chữ trong 1 giây? Nhận ra mặt/sản phẩm?
-- Đặt cạnh 2–3 thumbnail gần nhất của kênh (nếu có trong Approved Designs): có khác biệt đủ để không lẫn?
+- Đặt cạnh 2–3 thumbnail gần nhất của kênh (nếu có trong 02 Final): có khác biệt đủ để không lẫn?
 - Brief yêu cầu **2 phương án để thử** → 2 hướng (`huong-a`, `huong-b`) khác nhau rõ (khác chữ hoặc khác hình), ghi giả thuyết từng hướng.
 
 ## Tránh

@@ -1,37 +1,57 @@
-# Media Assets trên Google Drive — lấy tài nguyên & đưa thành phẩm lên
+# Media Assets (Drive) + Sheet "Hệ thống Design ảnh"
 
-Media Assets (Drive, trong cây thư mục brand của Content Workspace) là kho chung của Agent Content – Ảnh – Video.
-Nhóm logic (dùng thư mục có sẵn nếu tương đương, không tạo lại):
-`Brand Assets/` (logo, font) · `Design Elements/` (icon, khung, nền) · `Source Media/` (ảnh người, sản phẩm, ảnh đã tách nền) · `Approved Designs/` (thành phẩm, mẫu).
+Media Assets nằm trong thư mục brand của Content Workspace (bộ mẫu: `Content Workspace - Template/Media Assets`). Học viên copy cả bộ mẫu.
 
-## Giới hạn đã đo (2026-10-23)
-Connector Google Drive của Claude chở **file nhị phân qua base64 trong hội thoại**: ảnh 2KB upload + tải lại khớp checksum; ảnh 28KB đã vượt trần
-→ **trần thực tế ~20KB/file ảnh**. Không có MD5. File chữ (design.json, manifest.json, .md) ghi bằng `textContent` thì ổn.
-Hệ quả: connector dùng để **tìm, lấy ID/link, tạo thư mục, ghi file chữ**. Ảnh thật đi bằng đồng bộ (Drive for Desktop) hoặc người dùng kéo thả.
+```
+Media Assets/
+├── <BRAND> | Hệ thống Design ảnh        Google Sheet — quản lý Brief, ảnh thô, thành phẩm, quá trình
+├── 01 Source thô/
+│   ├── 01 Logo & nhận diện/  02 Người/  03 Sản phẩm - Dịch vụ/  04 Bối cảnh/
+│   ├── 05 Đồ hoạ & thành phần/  06 Tham khảo/
+│   └── 07 Theo việc/<DS-…>/             ảnh thô chỉ dùng cho một việc
+└── 02 Final/
+    ├── 00 Mẫu đã duyệt/
+    └── <YYYY-MM>/<DS-… · tên>/          ảnh thành phẩm + _nguon/ (design.json, manifest.json, source.html)
+```
+Bản nháp chỉ ở máy (`jobs/`). Final chỉ chứa bản đã duyệt.
 
-Chế độ (`ia drive setup`):
-- `thu-cong` (mặc định): như trên.
-- `dong-bo`: Media Assets đồng bộ xuống máy → `ia assets scan <thư mục>` đăng ký; `ia publish` chép thẳng.
+## Sheet (cấu trúc: `templates/tracker.json`; tiêu đề cột dòng 3; agent tìm cột theo tên)
+| Tab | Mỗi dòng | Agent ghi khi |
+|---|---|---|
+| 01 Brief & Việc | 1 DS | `job new` (tạo dòng) · `brief` (Brief + chữ đã duyệt) · `render`/`version`/`approve`/`publish`/`link` (trạng thái, bản, người/ngày duyệt, link) |
+| 02 Source | 1 AS | `assets add` |
+| 03 Recap thiết kế | 1 bước | `render` (Dựng), `version new` (Sửa + góp ý), `approve` (Duyệt), `export` (Xuất), `publish`/`link` (Bàn giao), `source-check` (Nguồn đổi), `ia sheet recap` (kết quả design-qa) |
+| 04 Tiêu chuẩn | 1 loại ấn phẩm | không ghi — để người đọc hiểu agent kiểm theo gì |
+Brief từ Agent 01: chép sang với nhãn `[CHỈ ĐỌC — sửa ở Agent Content · bản … · mã …]`. Không sửa ô đó; chữ cần đổi → Agent 01.
+Agent chỉ ghi **ô nó đổi**, không ghi đè cả dòng — cột người dùng tự ghi (Ghi chú, Yêu cầu riêng…) giữ nguyên.
+
+## Vòng đọc/ghi Sheet (connector Google Sheets của Claude)
+1. **Đầu phiên / khi người dùng vừa sửa Sheet:** `ia sheet pull-plan` → `get_values` từng vùng → lưu JSON kết quả ra file → `ia sheet pull <Tab> --file …`.
+2. Làm việc bình thường — các lệnh `ia` tự xếp hàng thay đổi (`📝 Sheet: n lệnh ghi đang chờ`).
+3. **Sau mỗi nhóm việc, trước khi trình duyệt và trước khi kết thúc:** `ia sheet push` → chạy từng `update_values` trong `calls` → `ia sheet push --xong <n>`. Còn lệnh → push tiếp. Tối đa ~12 lệnh mỗi lượt.
+Chưa nối Sheet → agent vẫn chạy, chỉ bỏ qua phần Sheet; nhắc người dùng setup.
+Không pull khi còn lệnh chưa push (sẽ mất thay đổi).
+
+## Sheet mới (học viên vừa copy bộ mẫu có sẵn Sheet → bỏ qua)
+`ia sheet connect --url <link Sheet>` → `ia sheet init-plan` → chạy `update_spreadsheet` (requests trong `.tracker/init-plan.json`) rồi từng `update_values`.
+Chỉ dùng cho Sheet trống (một tab mặc định).
+
+## Giới hạn Drive đã đo (2026-10-23)
+Connector Google Drive chở file nhị phân dưới dạng base64 trong hội thoại: 2KB khớp checksum; 28KB vượt trần → **~20KB/file ảnh**. Không có MD5.
+Connector dùng để **tìm, lấy ID/link, tạo thư mục, ghi file chữ** (`textContent`). Ảnh đi bằng người dùng kéo thả, hoặc Drive for Desktop (`ia drive setup --che-do dong-bo`).
 
 ## Asset Retrieval (trước khi dựng)
-1. `ia assets find <từ khoá> [--loai logo|element|anh|mau]` — Brand Kit + registry `_assets.json` (+ thư mục đồng bộ).
-2. Không thấy trên máy → connector `search_files` trong thư mục Media Assets (`title contains '…'`, `parentId = '…'`, `mimeType contains 'image/'`),
-   ưu tiên Brand → loại → tên → tag → đã duyệt. **Không quét cả Drive.**
-3. Thấy file trên Drive:
-   - ≤ 20KB (logo nhỏ, icon) → có thể `download_file_content` → ghi bằng `base64 -D` vào `jobs/DS/assets/` → kiểm mở được.
-   - Lớn hơn → nhờ người dùng tải về / kéo vào chat hoặc `jobs/DS/input/` (nói rõ tên file + link Drive). Chế độ dong-bo: dùng thẳng đường dẫn.
-   - Đăng ký: `ia assets add <file> --loai … --tag … --drive-id <id>` để lần sau tìm nhanh.
-4. Nhiều ảnh gần giống → xem ảnh, đưa 2–4 lựa chọn. Không có ảnh phù hợp → **báo thiếu**, không chọn ảnh không liên quan.
-5. Ảnh người: phải có tag tên người trong registry (máy không nhận diện khuôn mặt) — thiếu tag thì hỏi người dùng ảnh nào là ai.
+1. `ia assets find <từ khoá> [--loai …]` — tab 02 Source (bộ đệm) + Brand Kit + ảnh đã có trên máy.
+2. Chưa có trong Sheet → connector `search_files` trong `01 Source thô` (id trong `image-studio.json` → drive.source_id), theo nhóm → tên.
+   **Không quét cả Drive.** Thấy file chưa có dòng Source → đăng ký: `ia assets add <file|-> --loai … --nhom "<Nhóm>" --tag "…" --drive-id <id> --quyen …`.
+3. Lấy ảnh về máy: file ≤ 20KB (logo nhỏ, icon) → `download_file_content` → `base64 -D` vào `jobs/DS/assets/`. Lớn hơn → nhờ người dùng kéo vào chat / `jobs/DS/input/` (nêu tên + link), hoặc dùng thẳng đường dẫn đồng bộ.
+4. Ảnh người dùng gửi thẳng cho một việc → nhắc họ đưa bản gốc vào `01 Source thô/07 Theo việc/<DS>/` (agent tạo sẵn thư mục) để Link source thô có giá trị.
+5. Nhiều ảnh gần giống → xem ảnh, đưa 2–4 lựa chọn. Không có ảnh phù hợp → **báo thiếu**. Ảnh người: Tag phải có tên người.
 
-## Asset Publishing (sau khi duyệt) — mặc định, không hỏi lại
-`ia export` → `ia check` (QA sau xuất) → `ia publish DS` → làm đúng các bước lệnh in ra:
-1. Thư mục `Approved Designs/<BRAND>/<YYYY-MM>/<DS>/`: `search_files` từng cấp, thiếu thì `create_file` (mimeType folder, parentId cấp trên).
-   Không đặt `inheritedPermissionsDisabled`, không chia sẻ.
-2. File chữ (`design.json`, `manifest.json`, `source.html`, `huong-dan-dat.md`) → `create_file` với `textContent`, `contentMimeType` đúng,
-   `disableConversionToGoogleType: true`.
-3. Ảnh/PDF → nhờ người dùng kéo từ `jobs/DS/ban-giao/` vào thư mục (gửi link thư mục). Chế độ dong-bo: đã chép, chờ đồng bộ.
-4. `search_files` `parentId = '<id>'` → lấy `title` + `fileSize` → `ia link DS --url <viewUrl thư mục> --folder-id <id> --kiem '{"tên": fileSize, …}'`.
-   Lệch / thiếu → giữ Chờ upload, báo đúng file nào.
-5. Có phiếu TASK → `ia sync DS xuat-thu`.
-Bản nháp/bản thử: chỉ ở máy (`jobs/`), không đưa lên Approved Designs.
+## Asset Publishing (sau khi duyệt — mặc định, không hỏi lại)
+`ia export` → `ia check` → `ia publish DS` → làm đúng các bước lệnh in ra:
+1. `02 Final` (drive.final_id) → thư mục tháng → thư mục `DS-… · tên` → thư mục con `_nguon` (search trước, thiếu mới `create_file` folder). Không chia sẻ, không đổi quyền.
+2. File chữ vào `_nguon` bằng `textContent`, `disableConversionToGoogleType: true`.
+3. Người dùng kéo ảnh/PDF từ `jobs/DS/ban-giao/` vào thư mục việc.
+4. `search_files parentId = …` (thư mục việc + `_nguon`) → `ia link DS --url <viewUrl thư mục việc> --folder-id <id> --kiem '{"tên": fileSize,…}' [--source-url <link 07 Theo việc/DS hoặc link ảnh Source>]`.
+5. `ia sheet push`. Có phiếu TASK → `ia sync DS xuat-thu` (+ push của content-agent) — link Final ghi vào **cả hai** Sheet.

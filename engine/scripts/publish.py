@@ -62,8 +62,10 @@ def publish(args):
         die("QA sau xuất còn lỗi (`ia check`) — sửa trước khi bàn giao.", 2)
     cfg = studio_config()
     d = cfg.get("drive") or {"che_do": "thu-cong"}
-    rel = d.get("thu_muc_thanh_pham", "Approved Designs/{brand}/{thang}/{ds}").format(
-        brand=(m.get("brand") or "brand").upper(), thang=datetime.now().strftime("%Y-%m"), ds=m["design_id"])
+    thang = datetime.now().strftime("%Y-%m")
+    job_folder = f"{m['design_id']} · {m['ten']}"[:90].replace("/", "-")
+    rel = d.get("thu_muc_thanh_pham", "02 Final/{thang}/{thu_muc}").format(
+        brand=(m.get("brand") or "brand").upper(), thang=thang, ds=m["design_id"], thu_muc=job_folder)
     src, files = bundle(m)
     sizes = {f.name: f.stat().st_size for f in files}
     bg = m.get("ban_giao") or {}
@@ -89,18 +91,27 @@ def publish(args):
         bin_files = [f.name for f in files if f.name not in text_files]
         info(f"Bộ bàn giao: {out}")
         info("Việc của Claude với connector Google Drive (chế độ thủ công):")
-        info(f"  1. Tìm/tạo thư mục '{rel}' bên trong Media Assets ({d.get('media_assets_url') or d.get('media_assets_id') or 'hỏi người dùng link Media Assets'}) — create_file mimeType folder, từng cấp.")
-        info(f"  2. Ghi file chữ bằng textContent (không base64): {', '.join(text_files)}")
-        info(f"  3. Nhờ người dùng kéo {len(bin_files)} file ảnh/PDF từ {out} vào thư mục Drive vừa tạo:")
+        if d.get("final_id"):
+            info(f"  1. Trong thư mục 02 Final (id {d['final_id']}): search_files tìm thư mục '{thang}', chưa có thì create_file (mimeType folder).")
+            info(f"     Trong đó tạo thư mục '{job_folder}', bên trong tạo thư mục con '_nguon'.")
+        else:
+            info(f"  1. Tìm/tạo thư mục '{rel}' (và thư mục con '_nguon') trong Media Assets "
+                 f"({d.get('media_assets_url') or 'hỏi người dùng link Media Assets'}) — create_file mimeType folder, từng cấp.")
+        info(f"  2. Ghi file chữ vào '_nguon' bằng textContent (không base64), disableConversionToGoogleType=true: {', '.join(text_files)}")
+        info(f"  3. Nhờ người dùng kéo {len(bin_files)} file ảnh/PDF từ {out} vào thư mục '{job_folder}' (gửi họ link thư mục):")
         for n in bin_files:
             info(f"       {n}  ({sizes[n] // 1024}KB)")
-        info("  4. search_files parentId = <id thư mục> → so tên + fileSize, rồi:")
-        info(f"     ia link {m['design_id']} --url <link thư mục> --folder-id <id> --kiem '{{\"tên\": fileSize, …}}'")
+        info("  4. search_files parentId = <id thư mục việc> và <id _nguon> → so tên + fileSize, rồi:")
+        info(f"     ia link {m['design_id']} --url <link thư mục việc> --folder-id <id> --kiem '{{\"tên\": fileSize, …}}' [--source-url <link ảnh thô>]")
     bg["drive"] = drive
     m["ban_giao"] = bg
     m["trang_thai"] = "Chờ upload"
     log(m, f"chuẩn bị bàn giao Drive ({drive['che_do']}): {rel}")
     save_manifest(m)
+    import tracker
+    tracker.upsert("Viec", m["design_id"], {"Trạng thái": "Chờ upload"})
+    tracker.recap(m["design_id"], (m.get("ban_duyet") or {}).get("v"), "Bàn giao", f"Chuẩn bị thư mục {rel} — chờ đưa ảnh lên Drive")
+    tracker.hint_push()
     return 0
 
 
@@ -132,9 +143,19 @@ def link(args):
         return 2
     drive.update({"trang_thai": "Đã upload", "link": url, "folder_id": opt(args, "--folder-id", ""), "xac_nhan_luc": now()})
     m["trang_thai"] = "Đã bàn giao" if not m["nguon"].get("task_id") else "Đã duyệt"
+    if opt(args, "--source-url"):
+        drive["source_link"] = opt(args, "--source-url")
     log(m, f"đã có link Drive: {url}")
     save_manifest(m)
+    import tracker
+    fields = {"Link final": url, "Trạng thái": "Đã bàn giao"}
+    if drive.get("source_link"):
+        fields["Link source thô"] = drive["source_link"]
+    tracker.upsert("Viec", m["design_id"], fields)
+    tracker.recap(m["design_id"], (m.get("ban_duyet") or {}).get("v"), "Bàn giao", f"Thành phẩm trên Drive: {url}",
+                  qa_may=f"Đối chiếu {len(drive['files'])} file trên Drive: khớp" if opt(args, "--kiem") else "Chưa đối chiếu từng file")
     info(f"✅ {m['design_id']}: thành phẩm trên Drive → {url}")
+    tracker.hint_push()
     if m["nguon"].get("task_id"):
         info(f"Tiếp: `ia sync {m['design_id']} xuat-thu` để ghi link + trạng thái vào 04 Production ({m['nguon']['task_id']}).")
     return 0

@@ -1,0 +1,92 @@
+{
+  "_ghi_chu": "Cấu trúc Google Sheet 'Hệ thống Design ảnh' (mỗi brand một file, dùng xuyên suốt). Tiêu đề cột ở dòng 3. Agent tìm cột theo TÊN — đổi thứ tự cột không sao, đổi tên cột thì báo agent.",
+  "phien_ban": 1,
+  "header_row": 3,
+  "tabs": {
+    "Viec": {
+      "title": "01 Brief & Việc",
+      "mo_ta": "Mỗi dòng một việc thiết kế (DS ID). Brief từ Agent 01: chỉ đọc — sửa bên Agent Content.",
+      "id_col": "DS ID",
+      "columns": ["DS ID", "Tháng", "Brand", "Nguồn", "CT ID", "TASK ID", "Loại ấn phẩm", "Kênh", "Khổ", "Brief ảnh",
+                  "Chữ trên ảnh (đã duyệt)", "Tiêu chuẩn áp dụng", "Yêu cầu riêng", "Hạn", "Trạng thái", "Bản đang làm",
+                  "Bản duyệt", "Người duyệt", "Ngày duyệt", "Link source thô", "Link final", "Ghi chú"],
+      "widths": {"Brief ảnh": 320, "Chữ trên ảnh (đã duyệt)": 280, "Yêu cầu riêng": 220, "Link source thô": 200, "Link final": 200, "Ghi chú": 220},
+      "enums": {
+        "Nguồn": ["Trực tiếp", "Agent 01 – Content", "Agent 03 – Video"],
+        "Loại ấn phẩm": ["Thumbnail", "Carousel", "Ảnh Facebook", "Ảnh quảng cáo", "Poster", "Ảnh bìa", "Biểu đồ", "Đồ hoạ video", "Story"],
+        "Trạng thái": ["Mới", "Đang làm", "Chờ duyệt", "Cần sửa", "Đã duyệt", "Chờ upload", "Đã bàn giao", "Tạm dừng"]
+      }
+    },
+    "Source": {
+      "title": "02 Source",
+      "mo_ta": "Thư viện ảnh thô / tài nguyên trong Media Assets › 01 Source thô. Ảnh người: Tag phải có tên người.",
+      "id_col": "AS ID",
+      "columns": ["AS ID", "Nhóm", "Tên", "Tag", "Link Drive", "Drive File ID", "Quyền dùng", "Trạng thái", "Người cung cấp",
+                  "Ngày thêm", "Dùng trong DS", "Ghi chú"],
+      "widths": {"Tên": 220, "Tag": 220, "Link Drive": 220, "Dùng trong DS": 200, "Ghi chú": 220},
+      "enums": {
+        "Nhóm": ["Logo & nhận diện", "Người", "Sản phẩm - Dịch vụ", "Bối cảnh", "Đồ hoạ & thành phần", "Tham khảo", "Theo việc"],
+        "Quyền dùng": ["Nội bộ", "Thương mại", "Chưa rõ"],
+        "Trạng thái": ["Đã duyệt", "Chưa kiểm", "Không dùng"]
+      }
+    },
+    "Recap": {
+      "title": "03 Recap thiết kế",
+      "mo_ta": "Nhật ký quá trình: mỗi lần dựng / sửa / duyệt / xuất / bàn giao một dòng.",
+      "id_col": null,
+      "columns": ["DS ID", "Phiên bản", "Ngày", "Bước", "Đã làm / đổi gì", "Góp ý người dùng", "QA máy", "QA design-qa", "Quyết định", "Ghi chú"],
+      "widths": {"Đã làm / đổi gì": 320, "Góp ý người dùng": 260, "QA máy": 200, "QA design-qa": 220, "Ghi chú": 200},
+      "enums": {
+        "Bước": ["Dựng", "Sửa", "Duyệt", "Xuất", "Bàn giao", "Nguồn đổi"],
+        "Quyết định": ["Sửa tiếp", "Duyệt", "Chấp nhận lỗi", "Tạm dừng"]
+      }
+    },
+    "TieuChuan": {
+      "title": "04 Tiêu chuẩn",
+      "mo_ta": "Agent kiểm thiết kế theo các tiêu chuẩn này (chi tiết trong plugin: references/formats/).",
+      "id_col": "Loại ấn phẩm",
+      "columns": ["Loại ấn phẩm", "Khổ chuẩn", "Vùng an toàn / bị che", "Lượng chữ", "Bắt buộc có", "Tránh", "Kiểm riêng", "Tài liệu agent"],
+      "widths": {"Vùng an toàn / bị che": 240, "Bắt buộc có": 280, "Tránh": 260, "Kiểm riêng": 280},
+      "enums": {}
+    }
+  },
+  "ma_loai": {
+    "thumbnail": "Thumbnail", "carousel": "Carousel", "facebook": "Ảnh Facebook", "anh_don": "Ảnh Facebook",
+    "quang_cao": "Ảnh quảng cáo", "poster": "Poster", "anh_bia": "Ảnh bìa", "bieu_do": "Biểu đồ",
+    "video_graphic": "Đồ hoạ video", "story": "Story"
+  },
+  "tieu_chuan": [
+    ["Thumbnail", "1280×720 (16:9)", "Góc dưới phải bị thời lượng video che", "≤ 4–5 từ", "Một điểm nhấn hình (mặt/sản phẩm 35–55% khung); chữ bổ sung tiêu đề; một màu nhấn", "Chữ nhỏ nhiều dòng, 3 màu nhấn, mặt quá nhỏ, ảnh mờ", "Đọc được ở 360px điện thoại; khác thumbnail gần nhất", "formats/thumbnail.md"],
+    ["Carousel", "1080×1350 (4:5) hoặc 1080×1080", "Lề 7%", "Trang 1 ≤ 12 từ; trang khác ≤ 25–35 từ", "Trang 1 mở – trang giữa mỗi trang một ý – trang cuối CTA; số trang + Vuốt →", "Nhồi chữ, mỗi trang một kiểu, tự cắt nội dung đã duyệt", "Xem cả bộ: cùng hệ thống, đọc lướt tiêu đề vẫn hiểu", "formats/carousel.md"],
+    ["Ảnh Facebook", "1080×1350 (4:5) hoặc 1080×1080", "Lề 6%", "Tiêu đề ≤ 8 từ, chữ phụ ≤ 15 từ", "Một thông điệp chính; ảnh thật hoặc đồ hoạ chữ + khối + biểu tượng", "Ảnh mạng/stock, AI viết chữ", "Đọc trong 2–3 giây; logo đúng bản nền", "formats/facebook.md"],
+    ["Ảnh quảng cáo", "Feed 1080×1350; Story 1080×1920", "Story: tránh 14% trên, 20% dưới", "Ít chữ: hình + 1 câu + nút", "Sản phẩm/Offer nguyên văn, lợi ích, bằng chứng có nguồn, CTA", "Tự thêm giá/khuyến mãi/cam kết; trước–sau ngành nhạy cảm", "Biến thể khác đúng một biến, ghi giả thuyết", "formats/quang-cao.md"],
+    ["Poster", "1080×1350; in A4 1240×1754", "Lề 6%", "Theo 5 thông tin bắt buộc", "Tên sự kiện, thời gian, địa điểm/hình thức, người tham gia, đăng ký", "Tự điền thông tin thiếu", "Đọc lại 5 thông tin đúng từng ký tự", "formats/poster.md"],
+    ["Ảnh bìa", "FB 1640×624; YouTube 2560×1440; Zalo 1500×500", "FB: avatar che góc dưới trái; YouTube: chỉ dải giữa 1546×423", "Một câu định vị", "Câu định vị + nhận diện trong vùng an toàn", "Chữ ra ngoài vùng an toàn, tự sáng tác khẩu hiệu", "Xem hai bên bị cắt trên điện thoại", "formats/anh-bia.md"],
+    ["Biểu đồ", "1600×900 hoặc theo ấn phẩm", "Lề 5%", "Tiêu đề + nhãn ngắn", "Số đúng nguồn, đơn vị, nhãn, dòng nguồn, trục từ 0, một điểm nhấn", "Đặt ra số, cắt trục phóng đại, donut > 5 phần", "Đối chiếu từng số với nguồn", "formats/bieu-do.md"],
+    ["Đồ hoạ video", "1080×1920 PNG trong suốt; 1920×1080", "Dọc: tránh nút phải, phụ đề + caption dưới, thanh trên", "Ngắn, đọc trong 2–3 giây", "Đặt tên theo Scene ID; hướng dẫn đặt vào video", "Đồ hoạ thừa, đè phụ đề", "Đủ cảnh trong Graphic Asset List đã duyệt", "formats/video-graphic.md"],
+    ["Story", "1080×1920 (9:16)", "Tránh 14% trên, 20% dưới", "Ít chữ", "Thông điệp + CTA trong vùng an toàn", "Chữ sát mép trên/dưới", "Xem như trên điện thoại", "formats/facebook.md"]
+  ],
+  "huong_dan": [
+    ["HỆ THỐNG DESIGN ẢNH — Agent 02 Ảnh"],
+    ["File này là nơi quản lý mọi việc thiết kế ảnh của brand: Brief, ảnh thô, thành phẩm, quá trình sửa – duyệt."],
+    [""],
+    ["CÁCH DÙNG"],
+    ["1. Giao việc trực tiếp: nói với Claude (/image-agent:design). Agent tạo dòng ở tab 01 với DS ID, ghi Brief vào cột Brief ảnh."],
+    ["2. Việc từ Agent Content: Agent 02 chép Brief đã duyệt từ 04 Production sang tab 01 (Nguồn = Agent 01 – Content). Brief đó CHỈ ĐỌC — muốn sửa chữ thì sửa bên Agent Content."],
+    ["3. Ảnh thô đặt trong Media Assets › 01 Source thô (đúng nhóm) và có một dòng ở tab 02 Source. Ảnh người: cột Tag phải có tên người."],
+    ["4. Mỗi lần dựng / sửa / duyệt / xuất / bàn giao, agent ghi một dòng ở tab 03 Recap thiết kế."],
+    ["5. Thành phẩm đã duyệt nằm ở Media Assets › 02 Final › <năm-tháng> › <DS ID · tên>. Link ghi ở cột Link final (tab 01)."],
+    ["6. Agent kiểm thiết kế theo tab 04 Tiêu chuẩn."],
+    [""],
+    ["TRẠNG THÁI VIỆC (tab 01)"],
+    ["Mới → Đang làm → Chờ duyệt → (Cần sửa → Đang làm…) → Đã duyệt → Chờ upload → Đã bàn giao. Tạm dừng: dừng giữa chừng."],
+    ["Chờ upload = agent đã tạo thư mục Final và ghi file nguồn; cần người dùng kéo ảnh thành phẩm vào thư mục đó (connector Google Drive chỉ chở được file ~20KB)."],
+    [""],
+    ["QUY ƯỚC ĐẶT TÊN"],
+    ["Việc: DS-YYMMDD-NN  ·  Ảnh thô: AS-NNN  ·  File thành phẩm: DS-…-p1.png (trang 1), DS-…-SC-03.png (đồ hoạ video theo Scene ID)."],
+    ["Thư mục Final: 02 Final › 2026-10 › DS-261024-01 · Thumbnail Bí quyết x3 › (ảnh) + _nguon (design.json, manifest.json để mở lại sửa)."],
+    [""],
+    ["LƯU Ý"],
+    ["Tiêu đề cột ở dòng 3. Đổi thứ tự cột được; đổi TÊN cột thì báo agent. Không xoá dòng của việc đã bàn giao."]
+  ]
+}

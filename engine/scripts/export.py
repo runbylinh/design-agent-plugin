@@ -103,7 +103,13 @@ def export(args):
     save_manifest(m)
     shutil.copy2(Path(m["_dir"]) / "manifest.json", out / "manifest.json")
     info(f"Đã xuất {len(made)} file → {out}")
-    return check([did])
+    code = check([did])
+    import tracker
+    m = manifest(did)
+    q = m["xuat"].get("qa_sau_xuat", {})
+    tracker.recap(did, bd["v"], "Xuất", f"Xuất {', '.join(made)}", qa_may=f"QA sau xuất: {q.get('loi', 0)} lỗi, {q.get('canh_bao', 0)} cảnh báo")
+    tracker.hint_push()
+    return code
 
 
 def check(args):
