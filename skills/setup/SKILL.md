@@ -1,0 +1,48 @@
+---
+name: setup
+description: >-
+  Cài và thiết lập Agent 02 Ảnh — cài môi trường dựng ảnh trên máy (không cần mật khẩu), tạo studio ảnh, đọc Brand Guideline (PDF/link/ảnh) thành Brand Kit (màu, font, logo, quy tắc nên/không, tinh thần thương hiệu), nối Brand Kit có sẵn của video-edit, dựng thử 2–3 mẫu để duyệt, thư viện mẫu đã duyệt, kết nối Media Assets trên Google Drive (kiểm quyền đọc/ghi) và workspace Agent Content. Dùng khi người dùng gõ /image-agent:setup, nói "cài agent ảnh", "đây là brand guideline", "học brand này", "thêm brand mới", "nối Drive / Media Assets", "kiểm tra agent ảnh".
+argument-hint: "[thư mục studio | brand]"
+allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read, Write, Edit
+---
+
+# Thiết lập Agent 02 Ảnh
+
+**Lệnh `ia`** = `${CLAUDE_PLUGIN_ROOT}/bin/ia`. Đọc trước: `${CLAUDE_PLUGIN_ROOT}/references/nguyen-tac.md`, `brand-kit.md`, `media-assets.md`.
+Luôn nói tiếng Việt, lời thường, không thuật ngữ kỹ thuật khi không cần.
+
+## 1. Môi trường (mỗi máy một lần)
+`ia doctor`. Có ❌ → `ia setup` (chạy nền, vài phút: Python, Chromium, font Be Vietnam Pro, bộ biểu tượng). Model tách nền tự tải ở lần tách đầu (~170MB).
+Windows: `ia setup` gọi PowerShell — nếu lỗi, báo nguyên văn lỗi cho người dùng.
+
+## 2. Studio
+Hỏi gọn (một lượt): đặt studio ở đâu (mặc định `~/Image-Studio`), brand tên gì, đã có Brand Kit bên video-edit chưa.
+- Có Brand Kit video-edit: `ia studio init <thư mục> --brand-kit <…/video-studio/brand-kit/<brand>> --brand <brand>` (dùng chung, không chép).
+- Chưa có: `ia studio init <thư mục>` → `cd` vào → `ia brand init <brand>`.
+Brand thứ hai trở đi: `ia brand init <brand> [--tu <thư mục>]`.
+
+## 3. Brand Guideline → Brand Kit
+Theo `references/brand-kit.md` mục "Đọc guideline → Brand Kit": đọc guideline, `ia brand colors`, ghi brand.json + brand.md, logo nền sáng/tối,
+font (`ia font get` / xin file), quy tắc nên/không cụ thể, ảnh mẫu đúng chất vào `anh-mau/`. Điều suy ra → ghi **[CẦN XÁC NHẬN]** và hỏi.
+`ia brand check` đến khi ✅.
+Báo người dùng bản tóm tắt: "Đã học xong: màu …, font …, logo …, tinh thần …" + những điểm cần xác nhận.
+
+## 4. Dựng thử để chốt tinh thần
+Dựng 2–3 mẫu bằng skill design (nội dung thật của brand, ví dụ một thumbnail, một trang carousel, một ảnh chỉ chữ).
+Người dùng góp ý → sửa → thêm quy tắc vào `rules`/brand.md. Duyệt → `ia approve` → `ia template save <DS> --ten <tên> --cho-doi <id…>`.
+
+## 5. Google Drive — Media Assets
+Theo `references/media-assets.md`. Hỏi link thư mục Media Assets (hoặc tìm bằng connector `search_files` `title contains 'Media Assets'`).
+- Kiểm quyền bằng connector Google Drive: tìm được logo, đọc metadata một file mẫu, **thử ghi** một file chữ nhỏ vào thư mục con `_kiem-thu-agent-anh`
+  (`create_file` textContent). Thiếu quyền nào → báo chính xác (đọc / ghi / không thấy thư mục). File thử: báo người dùng, không tự xoá vĩnh viễn.
+- Chế độ: `ia drive setup --che-do thu-cong --url <link Media Assets> --id <folder id>`.
+  Máy có Google Drive for Desktop và người dùng muốn tự động → `--che-do dong-bo --sync-root <thư mục Media Assets trên máy>` rồi `ia assets scan <…>`.
+- Nói rõ giới hạn: connector chỉ chở ảnh ~20KB → ảnh thành phẩm người dùng kéo vào Drive (chế độ thủ công).
+Connector Google Drive chưa kết nối → báo cần bật trong Claude (Settings → Connectors), vẫn dùng được agent, chỉ thiếu bước Drive.
+
+## 6. Agent Content (tuỳ chọn)
+Người dùng có workspace Agent Content → `ia content connect <thư mục có content-studio.json>` → `ia content info` kiểm.
+Content-agent dùng connector Google Sheets → khi cần đọc/ghi phiếu phải theo vòng pull/push của content-agent (`references/ket-noi-google.md` trong plugin content-agent).
+
+## 7. Kết thúc
+`ia doctor` + `ia brand check` + `ia status`. Tóm tắt: studio ở đâu, Brand Kit nào, Drive chế độ gì, có nối Agent Content không, việc còn thiếu.

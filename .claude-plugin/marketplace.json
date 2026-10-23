@@ -1,0 +1,13 @@
+{
+  "name": "image-agent-dev",
+  "owner": {"name": "design-agent"},
+  "metadata": {"description": "Agent 02 Ảnh (bản phát triển)"},
+  "plugins": [
+    {
+      "name": "image-agent",
+      "source": "./",
+      "description": "Agent 02 Ảnh: thiết kế ấn phẩm tĩnh theo Brand Kit, nối với Agent Content và Agent Video.",
+      "version": "0.1.0"
+    }
+  ]
+}

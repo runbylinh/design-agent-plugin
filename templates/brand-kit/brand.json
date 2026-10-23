@@ -1,0 +1,33 @@
+{
+  "name": "Thương hiệu mẫu",
+  "handle": "",
+  "colors": {
+    "primary": "#8B5CF6",
+    "secondary": "#4C1D95",
+    "highlight": "#EC4899",
+    "dark": "#1A1A2E",
+    "light": "#F3EEFF",
+    "paper": "#FFFFFF",
+    "text": "#FFFFFF"
+  },
+  "font": {"family": "Be Vietnam Pro", "weight": 800, "file": null},
+  "fonts": {
+    "heading": {"family": "Be Vietnam Pro", "weight": 800},
+    "body": {"family": "Be Vietnam Pro", "weight": 500}
+  },
+  "logos": [
+    {"file": "logo/logo-mau.png", "variant": "chinh", "nen": "sang"},
+    {"file": "logo/logo-trang.png", "variant": "trang", "nen": "toi"}
+  ],
+  "image": {
+    "radius": 24,
+    "spacing": 64,
+    "style": "tối giản, nhiều khoảng trắng, chữ đậm lớn, một màu nhấn mỗi ảnh",
+    "photo_style": "ảnh thật, ánh sáng tự nhiên, không dùng ảnh stock giả"
+  },
+  "rules": {
+    "nen_lam": ["mỗi ảnh một thông điệp chính", "logo luôn ở góc, không đè chủ thể"],
+    "khong_lam": ["không dùng quá 2 màu nhấn trong một ảnh", "không kéo méo logo", "không đặt chữ lên vùng ảnh rối"]
+  },
+  "_ghi_chu": "File dùng chung với plugin video-edit (khối captions/zoom/music của video-edit giữ nguyên nếu có). Phần ảnh: fonts, logos, image, rules."
+}
