@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Lệnh `ia` của Agent 02 Ảnh — chạy được trên Mac/Linux và Windows (Git Bash, đi kèm Claude Code).
+PLUGIN="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+RT="${IMAGE_AGENT_HOME:-$HOME/.image-agent}"
+if [ "$1" = "setup" ]; then
+  shift
+  case "$(uname -s)" in
+    Darwin|Linux) exec bash "$PLUGIN/engine/setup.sh" "$@" ;;
+    *) exec powershell.exe -ExecutionPolicy Bypass -File "$(cygpath -w "$PLUGIN/engine/setup.ps1" 2>/dev/null || echo "$PLUGIN/engine/setup.ps1")" "$@" ;;
+  esac
+fi
+if   [ -x "$RT/env/bin/python" ];   then PY="$RT/env/bin/python"
+elif [ -f "$RT/env/python.exe" ];   then PY="$RT/env/python.exe"
+else echo "❌ Chưa cài đặt. Chạy: ia setup   (hoặc nói với agent: \"cài đặt agent ảnh\")"; exit 1
+fi
+export PYTHONIOENCODING=utf-8 PYTHONUTF8=1
+exec "$PY" "$PLUGIN/engine/ia.py" "$@"

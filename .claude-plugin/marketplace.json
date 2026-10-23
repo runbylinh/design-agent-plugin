@@ -1,0 +1,13 @@
+{
+  "name": "rbl-image-dev",
+  "owner": {"name": "Run By Linh", "email": "linhtran@runbylinh.com"},
+  "metadata": {"description": "Agent 02 Ảnh của Run By Linh (bản phát triển)"},
+  "plugins": [
+    {
+      "name": "image-agent",
+      "source": "./",
+      "description": "Agent 02 Ảnh: thiết kế ấn phẩm tĩnh theo Brand Kit, nối với Agent Content và Agent Video.",
+      "version": "0.1.0"
+    }
+  ]
+}

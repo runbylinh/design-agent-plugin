@@ -1,0 +1,144 @@
+{
+ "name": "bia-kenh",
+ "mo_ta": "Ảnh bìa kênh/trang: mọi chữ trong vùng an toàn giữa, tránh chỗ avatar",
+ "dung_cho": [
+  "anh_bia"
+ ],
+ "variants": {
+  "3:1": {
+   "regions": {
+    "hook": {
+     "box": [
+      0.24,
+      0.18,
+      0.52,
+      0.36
+     ],
+     "valign": "center",
+     "size": "xl",
+     "style": {
+      "align": "center"
+     }
+    },
+    "sub": {
+     "box": [
+      0.24,
+      0.55,
+      0.52,
+      0.14
+     ],
+     "size": "md",
+     "style": {
+      "align": "center"
+     }
+    },
+    "subject": {
+     "box": [
+      0.76,
+      0.05,
+      0.22,
+      0.95
+     ]
+    },
+    "logo": {
+     "box": [
+      0.8,
+      0.08,
+      0.14,
+      0.14
+     ]
+    }
+   }
+  },
+  "16:9": {
+   "regions": {
+    "hook": {
+     "box": [
+      0.22,
+      0.37,
+      0.56,
+      0.16
+     ],
+     "valign": "center",
+     "size": "lg",
+     "style": {
+      "align": "center"
+     }
+    },
+    "sub": {
+     "box": [
+      0.25,
+      0.53,
+      0.5,
+      0.08
+     ],
+     "size": "sm",
+     "style": {
+      "align": "center"
+     }
+    },
+    "subject": {
+     "box": [
+      0.62,
+      0.33,
+      0.16,
+      0.34
+     ]
+    },
+    "logo": {
+     "box": [
+      0.22,
+      0.36,
+      0.1,
+      0.1
+     ]
+    }
+   }
+  },
+  "21:9": {
+   "regions": {
+    "hook": {
+     "box": [
+      0.22,
+      0.18,
+      0.56,
+      0.36
+     ],
+     "valign": "center",
+     "size": "xl",
+     "style": {
+      "align": "center"
+     }
+    },
+    "sub": {
+     "box": [
+      0.22,
+      0.55,
+      0.56,
+      0.14
+     ],
+     "size": "md",
+     "style": {
+      "align": "center"
+     }
+    },
+    "subject": {
+     "box": [
+      0.78,
+      0.05,
+      0.2,
+      0.95
+     ]
+    },
+    "logo": {
+     "box": [
+      0.8,
+      0.08,
+      0.14,
+      0.14
+     ]
+    }
+   }
+  }
+ }
+}
