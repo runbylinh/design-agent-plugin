@@ -33,7 +33,7 @@ Người dùng góp ý → sửa → thêm quy tắc vào `rules`/brand.md. Duy�
 
 ## 5. Google Drive — Media Assets + Sheet "Hệ thống Design ảnh"
 Theo `references/media-assets.md`. Hỏi link thư mục **Media Assets** (trong thư mục brand của Content Workspace; bộ mẫu đã có sẵn cây thư mục + Sheet).
-1. Connector Google Drive: `search_files parentId = '<Media Assets>'` → tìm Sheet "… | Hệ thống Design ảnh …", `01 Source thô`, `02 Final`;
+1. Connector Google Drive: `search_files parentId = '<Media Assets>'` → thư mục `01 Ảnh` → trong đó tìm Sheet "… | Hệ thống Design ảnh …", `01 Source thô`, `02 Final` (bộ cũ chưa có `01 Ảnh` → tìm thẳng trong Media Assets);
    trong đó tìm `07 Theo việc`, `00 Mẫu đã duyệt`. Thiếu thư mục nào → tạo đúng tên trong media-assets.md (chỉ tạo mới, không sửa/chuyển file có sẵn).
    Thiếu Sheet → `create_file` mimeType spreadsheet tên "<BRAND> | Hệ thống Design ảnh" rồi bước 3 tạo cấu trúc.
 2. `ia sheet connect --url <link Sheet> --media-assets <link Media Assets> --source-id <id 01 Source thô> --final-id <id 02 Final> --theo-viec-id <id 07 Theo việc> --mau-id <id 00 Mẫu đã duyệt>`

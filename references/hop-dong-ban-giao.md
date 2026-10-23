@@ -38,7 +38,7 @@ báo người dùng để Agent 01 sửa (`sheet move CT-… "Cần sửa chữ"
 Đổi → liệt kê phần sửa/thêm/bỏ + đồ hoạ bị ảnh hưởng → đề xuất giữ/sửa/thêm/bỏ → bản mới chờ duyệt. Không tự thay file đã bàn giao.
 
 ## 5. Agent 02 → Agent 03 Video (Graphic Pack)
-Thư mục Drive `Media Assets/02 Final/<YYYY-MM>/<DS-… · tên>/`: `DS-…-SC-xx.png` (trong suốt) + `_nguon/` (`huong-dan-dat.md`, `design.json`, `manifest.json`).
+Thư mục Drive `Media Assets/01 Ảnh/02 Final/<YYYY-MM>/<DS-… · tên>/`: `DS-…-SC-xx.png` (trong suốt) + `_nguon/` (`huong-dan-dat.md`, `design.json`, `manifest.json`).
 Agent Video nhận link thư mục (hoặc đường dẫn `approved/` nếu cùng máy).
 
 ## 6. Sheet "Hệ thống Design ảnh" của Agent 02

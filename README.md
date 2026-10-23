@@ -18,9 +18,11 @@ Hệ thống 3 agent: **Agent 01 Content** (`content-agent`) → **Agent 02 Ản
 Trong thư mục brand của Content Workspace:
 ```
 Media Assets/
-├── <BRAND> | Hệ thống Design ảnh   ← Sheet: 00 Hướng dẫn · 01 Brief & Việc · 02 Source · 03 Recap thiết kế · 04 Tiêu chuẩn
-├── 01 Source thô/  (01 Logo & nhận diện · 02 Người · 03 Sản phẩm - Dịch vụ · 04 Bối cảnh · 05 Đồ hoạ & thành phần · 06 Tham khảo · 07 Theo việc)
-└── 02 Final/       (00 Mẫu đã duyệt · <YYYY-MM>/<DS · tên>/ + _nguon/)
+├── 01 Ảnh/
+│   ├── <BRAND> | Hệ thống Design ảnh   ← Sheet: 00 Hướng dẫn · 01 Brief & Việc · 02 Source · 03 Recap thiết kế · 04 Tiêu chuẩn
+│   ├── 01 Source thô/  (01 Logo & nhận diện · 02 Người · 03 Sản phẩm - Dịch vụ · 04 Bối cảnh · 05 Đồ hoạ & thành phần · 06 Tham khảo · 07 Theo việc)
+│   └── 02 Final/       (00 Mẫu đã duyệt · <YYYY-MM>/<DS · tên>/ + _nguon/)
+└── 02 Video/           ← Agent Video (video-edit)
 ```
 Sheet ghi lại Brief, link ảnh thô, link thành phẩm và toàn bộ quá trình dựng – sửa – duyệt – xuất – bàn giao. Agent đọc/ghi qua connector Google Sheets
 (`ia sheet pull` / `ia sheet push`), chỉ ghi ô nó đổi. Cấu trúc ở `templates/tracker.json`; Sheet mới: `ia sheet init-plan`.
