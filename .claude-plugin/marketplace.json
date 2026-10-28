@@ -1,6 +1,6 @@
 {
   "name": "rbl-image-dev",
-  "owner": {"name": "Run By Linh", "email": "linhtran@runbylinh.com"},
+  "owner": {"name": "Run By Linh"},
   "metadata": {"description": "Agent 02 Ảnh của Run By Linh (bản phát triển)"},
   "plugins": [
     {

@@ -12,7 +12,7 @@ HTML và PNG đều **dựng ra từ** design.json. Sửa thiết kế = sửa d
   "canvas": {"preset": "youtube_thumbnail"},          // hoặc {"w":1200,"h":628} — xem `ia presets`
   "layout": "chu-trai-chu-the-phai",                    // bố cục mặc định cho mọi trang — xem `ia layouts`
   "bg": {"color": "light"},                             // nền mặc định
-  "chrome": {"handle": "@runbylinh", "page_number": true, "swipe": true},   // chỉ carousel
+  "chrome": {"handle": "@tenkenh", "page_number": true, "swipe": true},   // chỉ carousel
   "export": {"formats": ["png", "pdf"], "max_kb": 500},
   "pages": [ { "id": "p1", "layout": "…", "bg": {…}, "dark": false, "elements": [ … ] } ]
 }
