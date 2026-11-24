@@ -188,10 +188,18 @@ def template(args):
 
 
 def layouts(args):
-    for f in sorted(LAYOUT_DIR.glob("*.json")):
+    files = []
+    try:
+        b = brandmod.load()
+        files += [(f, f"brand {b['key']}") for f in sorted((Path(b["dir"]) / "thanh-phan" / "layouts").glob("*.json"))]
+    except SystemExit:
+        pass
+    files += [(f, "") for f in sorted(LAYOUT_DIR.glob("*.json"))]
+    for f, tag in files:
         lay = read_json(f)
         regions = sorted({r for v in lay.get("variants", {}).values() for r in v.get("regions", {})})
-        info(f"{f.stem:26s} {', '.join(lay.get('variants', {}))}  · {lay.get('mo_ta', '')}\n{'':26s} vùng: {', '.join(regions)}")
+        mark = f" [{tag}]" if tag else ""
+        info(f"{f.stem:26s} {', '.join(lay.get('variants', {}))}{mark}  · {lay.get('mo_ta', '')}\n{'':26s} vùng: {', '.join(regions)}")
     return 0
 
 

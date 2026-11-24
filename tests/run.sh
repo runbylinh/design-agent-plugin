@@ -174,6 +174,53 @@ import json;ob=json.load(open('.tracker/outbox.json'))['ops'];o=[x for x in ob i
 assert o['values']['AS ID']=='AS-008' and o['row']==5 and o['values']['Quyền dùng']=='Nội bộ', o" && ok "thêm ảnh thô → 02 Source, AS ID nối tiếp Sheet (AS-008)" || bad "Source sai"
 expect_out "AS-007" "tìm ảnh từ tab 02 Source" "$IA" assets find dien gia chi tay
 
+echo "■ Nghiên cứu mẫu → bố cục riêng của brand"
+cd "$T/st"
+RS=$("$IA" research new --ten "Carousel kiến thức" --loai carousel | tail -1)
+expect_code 2 "research add thiếu --url bị chặn" sh -c "'$IA' research add $RS '$T/anh.jpg' --nguon Pinterest; [ \$? = 1 ] && exit 2"
+expect_out "#01" "research add ghi nguồn" "$IA" research add "$RS" "$T/anh.jpg" --url "https://example.com/pin/1" --nguon Pinterest
+"$IA" research add "$RS" "$T/anh.jpg" --url "https://example.com/ads/2" --nguon "Meta Ads Library" >/dev/null
+expect_out "Moodboard" "moodboard ghép ảnh" "$IA" research moodboard "$RS"
+[ -f "research/$RS/moodboard.png" ] && ok "có moodboard.png" || bad "thiếu moodboard.png"
+echo '{"mo_ta":"x","dung_cho":["carousel"],"variants":{"4:5":{"regions":{"hook":{"box":[0.5,0.1,0.8,0.2]}}}}}' > "$T/lay-sai.json"
+expect_code 2 "bố cục tràn khung bị chặn" "$IA" layout check "$T/lay-sai.json"
+cat > "$T/lay.json" <<'EOF2'
+{"mo_ta":"Tiêu đề trái, thẻ nội dung dưới","dung_cho":["carousel","facebook"],
+ "variants":{"4:5":{"regions":{"kicker":{"box":[0.08,0.08,0.6,0.05],"size":"sm"},"hook":{"box":[0.08,0.14,0.84,0.26],"size":"xl"},
+ "sub":{"box":[0.08,0.44,0.84,0.4],"size":"md"},"logo":{"box":[0.08,0.9,0.2,0.05]}}}}}
+EOF2
+expect_out "Đã lưu bố cục" "lưu bố cục vào Brand Kit" "$IA" layout save "$T/lay.json" --ten "the-noi-dung-duoi" --tu "$RS"
+expect_out "the-noi-dung-duoi.*brand demo" "ia layouts thấy bố cục brand" "$IA" layouts
+D9=$("$IA" job new --loai facebook --ten "Thử bố cục mới" | tail -1)
+cat > "jobs/$D9/v1/design.json" <<'EOF2'
+{"brand":"demo","canvas":{"preset":"facebook_4x5"},"layout":"the-noi-dung-duoi","bg":{"color":"paper"},
+ "pages":[{"id":"p1","elements":[{"id":"h","type":"text","role":"hook","content":"Bố cục học từ mẫu"},{"id":"s","type":"text","role":"sub","content":"Nội dung ngắn"}]}]}
+EOF2
+expect_code 0 "dựng bằng bố cục brand" "$IA" render "$D9"
+cp "$T/lay.json" "$T/lay2.json"; "$IA" layout save "$T/lay2.json" --ten "bo-thu" >/dev/null
+expect_out "Đã xoá" "xoá bố cục thử bị loại" "$IA" layout rm bo-thu
+expect_code 1 "không xoá bố cục của plugin" "$IA" layout rm tieu-de-giua
+expect_out "Đã đóng gói" "research done" "$IA" research done "$RS" --goi "bố cục the-noi-dung-duoi"
+
+echo "■ Landing page"
+LP=$("$IA" landing new --ten "Thử landing" --muc-tieu dang-ky | tail -1)
+grep -q -- "--c-primary" "landing/$LP/v1/index.html" && ok "khung HTML có màu Brand Kit" || bad "khung thiếu token màu"
+expect_code 2 "duyệt khi chưa kiểm bị chặn" "$IA" landing approve "$LP" --v 1 --xac-nhan "ok"
+"$PY" - "landing/$LP/v1/index.html" <<'EOF2'
+import sys; p=sys.argv[1]; s=open(p).read()
+s=s.replace('content=""','content="Mô tả thử"').replace('</section>','</section><section><div class="wrap"><h2>Lợi ích</h2><p>Nội dung</p><a href="https://example.com/form">Đăng ký</a></div></section>',1)
+open(p,"w").write(s)
+EOF2
+expect_code 0 "landing kiểm đạt" "$IA" landing check "$LP"
+[ -f "landing/$LP/v1/xem/dien-thoai.png" ] && [ -f "landing/$LP/v1/xem/may-tinh.png" ] && ok "chụp máy tính + điện thoại" || bad "thiếu ảnh chụp landing"
+expect_out "v2" "landing version" "$IA" landing version "$LP" --note "thêm khối rộng"
+sed -i.bak 's#<h2>Lợi ích</h2>#<h2>Lợi ích</h2><div style="width:900px">rộng</div><img src="khong-co.png" alt="x">#' "landing/$LP/v2/index.html"
+expect_code 2 "tràn ngang + ảnh hỏng bị chặn" "$IA" landing check "$LP"
+expect_out "tràn ngang" "báo tràn ngang trên điện thoại" "$IA" landing check "$LP"
+expect_code 2 "không duyệt bản còn lỗi" "$IA" landing approve "$LP" --v 2 --xac-nhan "ok"
+expect_out "Đã duyệt v1" "duyệt bản đạt → final/" "$IA" landing approve "$LP" --v 1 --xac-nhan "ok duyệt"
+[ -f "landing/$LP/final/index.html" ] && ok "có final/index.html" || bad "thiếu final"
+
 echo
 echo "Kết quả: $PASS đạt · $FAIL lỗi"
 [ "$FAIL" = 0 ]

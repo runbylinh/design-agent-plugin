@@ -12,6 +12,8 @@ Hệ thống 3 agent: **Agent 01 Content** (`content-agent`) → **Agent 02 Ản
 | Đầu vào | Yêu cầu trực tiếp (chữ, ảnh, ý tưởng, ảnh tham khảo) **hoặc** Brief ảnh / Script video đã duyệt của Agent Content (phiếu `TASK-` trong 04 Production) |
 | Sửa | Mở lại job cũ, sửa đúng phần được yêu cầu, giữ nguyên phần đã chốt; dựng lại từ ảnh PNG/JPG cũ |
 | Tái sử dụng | Đổi kích thước (dàn lại bố cục, không kéo giãn) · nhân bản hàng loạt từ mẫu · thư viện mẫu đã duyệt |
+| Nghiên cứu mẫu | Quét thư viện thiết kế, quảng cáo & fanpage ngành, link người dùng gửi → moodboard, phân tích xu hướng → dựng thử → đóng gói bố cục/mẫu vào Brand Kit |
+| Landing page | File HTML một trang theo Brand Kit (đăng ký, bán hàng, sự kiện, giới thiệu) — tự chụp máy tính + điện thoại, kiểm tràn/ảnh/tương phản, phiên bản, bàn giao |
 | Kiểm & quản lý | QA trước duyệt + sau xuất · phiên bản V1→V2→V3 · khoá chữ đã duyệt · phát hiện Brief/Script đổi · bàn giao Drive + cập nhật 04 Production |
 
 ## Google Drive + Sheet (v0.2.0)
@@ -34,6 +36,8 @@ Sheet ghi lại Brief, link ảnh thô, link thành phẩm và toàn bộ quá t
   hoặc dùng Google Drive for Desktop (chế độ `dong-bo`).
 - Font thương mại cần file; không có thì dùng font gần nhất và báo rõ.
 - Không đăng bài, không làm video/ảnh động. Canva: để giai đoạn sau.
+- Landing page: chỉ xuất file HTML, không tự đăng lên LadiPage/Netlify; form, pixel, tracking người dùng tự gắn trên nền tảng.
+- Nghiên cứu mẫu: chỉ học cấu trúc, ảnh mẫu lưu nội bộ trong studio để tham khảo.
 
 ## Cài đặt
 ```
@@ -50,6 +54,8 @@ Rồi nói "cài agent ảnh" (skill `setup`): cài môi trường `~/.image-age
 | `/image-agent:edit` | sửa thiết kế có sẵn, nguồn đổi |
 | `/image-agent:adapt` | đổi kích thước, nhân bản, mẫu |
 | `/image-agent:status` | việc đang làm/chờ duyệt/chờ upload, mở lại việc cũ |
+| `/image-agent:research` | nghiên cứu mẫu thiết kế mới → phân tích → dựng thử → đóng gói bố cục/mẫu |
+| `/image-agent:landing` | thiết kế landing page (file HTML) |
 Subagent `design-qa` soát thiết kế độc lập (chỉ đọc).
 
 ## Cấu trúc
@@ -59,10 +65,10 @@ engine/                Python: tracker (Sheet), compose (design.json → HTML), 
 templates/layouts/     10 bố cục, mỗi bố cục có biến thể 16:9 / 4:5 / 1:1 / 9:16 (+3:1, 21:9 cho ảnh bìa)
 templates/brand-kit/   mẫu Brand Kit
 references/            nguyên tắc, điều phối 15 Use Case, design.json, hợp đồng bàn giao v1, Media Assets, QA, quy tắc theo loại ấn phẩm
-skills/ agents/        5 skill + design-qa
-tests/run.sh           48 tình huống
+skills/ agents/        7 skill + design-qa
+tests/run.sh           69 tình huống
 ```
-Studio (ngoài plugin): `image-studio.json`, `jobs/DS-YYMMDD-NN/` (manifest, input, assets, v1…, approved), `.tracker/` (bộ đệm Sheet + hàng đợi ghi).
+Studio (ngoài plugin): `image-studio.json`, `jobs/DS-YYMMDD-NN/` (manifest, input, assets, v1…, approved), `research/RS-…/` (ảnh mẫu, moodboard, phân tích), `landing/LP-…/` (v1…, final), `.tracker/` (bộ đệm Sheet + hàng đợi ghi).
 Brand Kit dùng chung với `video-edit` (cùng `brand.json`).
 
 ## Kiểm thử

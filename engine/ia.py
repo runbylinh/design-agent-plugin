@@ -43,6 +43,16 @@ Tái sử dụng
   ia resize <DS> --preset <khổ> · ia batch <DS|mẫu> --data rows.json
   ia template save|list|use …
 
+Nghiên cứu mẫu & bố cục riêng
+  ia research new --ten "…" [--loai …] · ia research add <RS> <ảnh…> --url … --nguon …
+  ia research moodboard|show|done <RS> · ia research list
+  ia layout check <file.json> · ia layout save <file.json> --ten <tên> [--tu RS-…] · ia layout rm <tên>
+
+Landing page (HTML)
+  ia landing new --ten "…" [--muc-tieu dang-ky|ban-hang|su-kien|gioi-thieu] · ia landing tokens
+  ia landing check <LP> [--v N] · ia landing version <LP> --note "…"
+  ia landing approve <LP> --v N --xac-nhan "…" · ia landing list
+
 Theo dõi
   ia status [--cho-duyet|--dang-lam|--cho-upload|--tat-ca] · ia job find <từ khoá> · ia job show <DS>
 
@@ -153,6 +163,9 @@ def main():
     if cmd in ("resize", "batch", "template", "layouts", "presets"):
         import adapt
         return adapt.main(cmd, rest)
+    if cmd in ("research", "layout", "landing"):
+        import web
+        return web.main(cmd, rest)
     print(f"Không có lệnh '{cmd}'.\n{HELP}")
     return 1
 
