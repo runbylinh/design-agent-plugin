@@ -1,6 +1,6 @@
 {
   "name": "design-agent",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Agent 02 Design: thiết kế ấn phẩm tĩnh theo Brand Kit — thumbnail, carousel, ảnh Facebook/quảng cáo, poster, ảnh bìa, biểu đồ, đồ hoạ cho video — từ yêu cầu trực tiếp hoặc Brief/Script đã duyệt của Agent Content. Tách nền trên máy, dàn trang bằng design.json, tự kiểm 2 lần, quản lý phiên bản, đổi kích thước, nhân bản từ mẫu, bàn giao lên Google Drive và cập nhật 04 Production. Nghiên cứu mẫu thiết kế mới rồi đóng gói thành bố cục/mẫu của brand; thiết kế landing page HTML; slide/deck và xuất PPTX cho Canva; ấn phẩm in, banner, mockup; học từ số liệu hiệu quả.",
   "author": {"name": "design-agent"},
   "keywords": ["design", "thumbnail", "carousel", "poster", "brand kit", "ảnh", "tiếng Việt", "landing page", "research"]
