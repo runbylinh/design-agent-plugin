@@ -1,4 +1,4 @@
-# Cai Agent 02 Anh (image-agent) tren Windows 10/11 - KHONG can quyen Administrator.
+# Cai Agent 02 Design (design-agent) tren Windows 10/11 - KHONG can quyen Administrator.
 # Cai vao %USERPROFILE%\.image-agent (dung chung moi studio, giu nguyen khi cap nhat plugin).
 $ErrorActionPreference = "Stop"
 $ENGINE = $PSScriptRoot

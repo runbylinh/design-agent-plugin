@@ -1,5 +1,5 @@
 @echo off
-rem Lenh ia (Agent 02 Anh) cho CMD/PowerShell tren Windows.
+rem Lenh ia (Agent 02 Design) cho CMD/PowerShell tren Windows.
 set "RT=%IMAGE_AGENT_HOME%"
 if "%RT%"=="" set "RT=%USERPROFILE%\.image-agent"
 if "%~1"=="setup" (

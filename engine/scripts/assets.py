@@ -185,7 +185,7 @@ def font_get(args):
     for lic in ("ofl", "apache", "ufl"):
         api = f"https://api.github.com/repos/google/fonts/contents/{lic}/{key}"
         try:
-            with urllib.request.urlopen(urllib.request.Request(api, headers={"User-Agent": "image-agent"}), timeout=30) as r:
+            with urllib.request.urlopen(urllib.request.Request(api, headers={"User-Agent": "design-agent"}), timeout=30) as r:
                 files = json.load(r)
         except Exception:  # noqa: BLE001
             continue

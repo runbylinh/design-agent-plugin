@@ -1,9 +1,9 @@
-# image-agent — Agent 02 Ảnh
+# design-agent — Agent 02 Design
 
 Agent thiết kế ấn phẩm tĩnh theo Brand Kit, chạy trong Claude Code. Cung cấp Brand Guideline một lần; sau đó chỉ cần đưa chữ + ảnh thô (hoặc mã phiếu của Agent Content)
 là có thiết kế đúng thương hiệu, tự kiểm, duyệt, xuất file và đưa lên Google Drive.
 
-Hệ thống 3 agent: **Agent 01 Content** (`content-agent`) → **Agent 02 Ảnh** (plugin này) → **Agent 03 Video** (`video-edit`).
+Hệ thống 3 agent: **Agent 01 Content** (`content-agent`) → **Agent 02 Design** (plugin này) → **Agent 03 Video** (`video-edit`).
 
 ## Làm được
 | Nhóm | Cụ thể |
@@ -40,22 +40,24 @@ Sheet ghi lại Brief, link ảnh thô, link thành phẩm và toàn bộ quá t
 - Nghiên cứu mẫu: chỉ học cấu trúc, ảnh mẫu lưu nội bộ trong studio để tham khảo.
 
 ## Cài đặt
+> Tên cũ `image-agent` (đổi ở v0.4.0). Thư mục máy `~/.image-agent`, lệnh `ia` và file `image-studio.json` giữ tên cũ để studio đang dùng không phải cài lại.
+
 ```
 /plugin marketplace add <đường dẫn hoặc repo của plugin>
-/plugin install image-agent@image-agent-dev
+/plugin install design-agent@design-agent-dev
 ```
-Rồi nói "cài agent ảnh" (skill `setup`): cài môi trường `~/.image-agent` (không cần mật khẩu), tạo studio, học Brand Guideline, nối Drive & Agent Content.
+Rồi nói "cài agent design" (skill `setup`): cài môi trường `~/.image-agent` (không cần mật khẩu), tạo studio, học Brand Guideline, nối Drive & Agent Content.
 
 ## Skill
 | Lệnh | Việc |
 |---|---|
-| `/image-agent:setup` | cài đặt, Brand Kit, Drive, Agent Content |
-| `/image-agent:design` | thiết kế mới (mọi loại, mọi đầu vào) |
-| `/image-agent:edit` | sửa thiết kế có sẵn, nguồn đổi |
-| `/image-agent:adapt` | đổi kích thước, nhân bản, mẫu |
-| `/image-agent:status` | việc đang làm/chờ duyệt/chờ upload, mở lại việc cũ |
-| `/image-agent:research` | nghiên cứu mẫu thiết kế mới → phân tích → dựng thử → đóng gói bố cục/mẫu |
-| `/image-agent:landing` | thiết kế landing page (file HTML) |
+| `/design-agent:setup` | cài đặt, Brand Kit, Drive, Agent Content |
+| `/design-agent:design` | thiết kế mới (mọi loại, mọi đầu vào) |
+| `/design-agent:edit` | sửa thiết kế có sẵn, nguồn đổi |
+| `/design-agent:adapt` | đổi kích thước, nhân bản, mẫu |
+| `/design-agent:status` | việc đang làm/chờ duyệt/chờ upload, mở lại việc cũ |
+| `/design-agent:research` | nghiên cứu mẫu thiết kế mới → phân tích → dựng thử → đóng gói bố cục/mẫu |
+| `/design-agent:landing` | thiết kế landing page (file HTML) |
 Subagent `design-qa` soát thiết kế độc lập (chỉ đọc).
 
 ## Cấu trúc

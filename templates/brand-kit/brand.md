@@ -27,7 +27,7 @@
 - Trang tham khảo đúng chất (link): …
 
 ## Style đã học
-<Ghi khi người dùng duyệt sau /image-agent:research — học từ RS-…, ngày, quy tắc>
+<Ghi khi người dùng duyệt sau /design-agent:research — học từ RS-…, ngày, quy tắc>
 
 ## Nên làm
 - …

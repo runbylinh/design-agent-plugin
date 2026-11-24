@@ -1,12 +1,12 @@
 ---
 name: setup
 description: >-
-  Cài và thiết lập Agent 02 Ảnh — cài môi trường dựng ảnh trên máy (không cần mật khẩu), tạo studio ảnh, đọc Brand Guideline (PDF/link/ảnh) thành Brand Kit (màu, font, logo, quy tắc nên/không, tinh thần thương hiệu), nối Brand Kit có sẵn của video-edit, dựng thử 2–3 mẫu để duyệt, thư viện mẫu đã duyệt, kết nối Media Assets trên Google Drive (kiểm quyền đọc/ghi) và workspace Agent Content. Dùng khi người dùng gõ /image-agent:setup, nói "cài agent ảnh", "đây là brand guideline", "học brand này", "thêm brand mới", "nối Drive / Media Assets", "kiểm tra agent ảnh".
+  Cài và thiết lập Agent 02 Design — cài môi trường dựng ảnh trên máy (không cần mật khẩu), tạo studio ảnh, đọc Brand Guideline (PDF/link/ảnh) thành Brand Kit (màu, font, logo, quy tắc nên/không, tinh thần thương hiệu), nối Brand Kit có sẵn của video-edit, dựng thử 2–3 mẫu để duyệt, thư viện mẫu đã duyệt, kết nối Media Assets trên Google Drive (kiểm quyền đọc/ghi) và workspace Agent Content. Dùng khi người dùng gõ /design-agent:setup, nói "cài agent design", "đây là brand guideline", "học brand này", "thêm brand mới", "nối Drive / Media Assets", "kiểm tra agent ảnh".
 argument-hint: "[thư mục studio | brand]"
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read, Write, Edit
 ---
 
-# Thiết lập Agent 02 Ảnh
+# Thiết lập Agent 02 Design
 
 **Lệnh `ia`** = `${CLAUDE_PLUGIN_ROOT}/bin/ia`. Đọc trước: `${CLAUDE_PLUGIN_ROOT}/references/nguyen-tac.md`, `brand-kit.md`, `media-assets.md`.
 Luôn nói tiếng Việt, lời thường, không thuật ngữ kỹ thuật khi không cần.

@@ -1,7 +1,7 @@
 ---
 name: edit
 description: >-
-  Sửa thiết kế đã có của Agent 02 Ảnh — mở lại job cũ (DS-/CT-/tên), sửa đúng phần được yêu cầu và giữ nguyên thành phần người dùng chốt (khoá nội dung, khoá cách thể hiện); hoặc nhận một ảnh PNG/JPG cũ không có file nguồn, phân tích bố cục và dựng lại phần cần chỉnh. Xử lý cả khi Brief/Script nguồn của Agent Content đã đổi sau khi thiết kế bắt đầu. Dùng khi người dùng gõ /image-agent:edit, nói "sửa ảnh…", "giữ nguyên … chỉ đổi …", "đổi màu nền / tăng chữ / thay logo", "mở lại ảnh tháng trước để sửa", "ảnh cũ này sửa lại bố cục", "script đổi rồi, cập nhật đồ hoạ".
+  Sửa thiết kế đã có của Agent 02 Design — mở lại job cũ (DS-/CT-/tên), sửa đúng phần được yêu cầu và giữ nguyên thành phần người dùng chốt (khoá nội dung, khoá cách thể hiện); hoặc nhận một ảnh PNG/JPG cũ không có file nguồn, phân tích bố cục và dựng lại phần cần chỉnh. Xử lý cả khi Brief/Script nguồn của Agent Content đã đổi sau khi thiết kế bắt đầu. Dùng khi người dùng gõ /design-agent:edit, nói "sửa ảnh…", "giữ nguyên … chỉ đổi …", "đổi màu nền / tăng chữ / thay logo", "mở lại ảnh tháng trước để sửa", "ảnh cũ này sửa lại bố cục", "script đổi rồi, cập nhật đồ hoạ".
 argument-hint: "[DS-ID | CT-ID | ảnh]"
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read, Write, Edit, Agent
 ---

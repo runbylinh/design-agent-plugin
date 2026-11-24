@@ -1,7 +1,7 @@
 ---
 name: status
 description: >-
-  Xem nhanh tình hình Agent 02 Ảnh — job thiết kế đang làm, chờ duyệt, chờ upload Drive, đã bàn giao; mở lại việc cũ theo DS ID, Content ID, Task ID hoặc tên ("bộ ảnh của video hôm qua"); xem lịch sử phiên bản, bản đã duyệt, link Drive; phát hiện Brief/Script nguồn đã đổi; tiếp tục việc dở sau gián đoạn. Dùng khi người dùng gõ /image-agent:status, hỏi "agent ảnh đang tới đâu", "còn ảnh nào chờ duyệt", "mở lại ảnh …", "file ảnh CT-… ở đâu", "những file chưa duyệt của video hôm qua", "upload xong chưa".
+  Xem nhanh tình hình Agent 02 Design — job thiết kế đang làm, chờ duyệt, chờ upload Drive, đã bàn giao; mở lại việc cũ theo DS ID, Content ID, Task ID hoặc tên ("bộ ảnh của video hôm qua"); xem lịch sử phiên bản, bản đã duyệt, link Drive; phát hiện Brief/Script nguồn đã đổi; tiếp tục việc dở sau gián đoạn. Dùng khi người dùng gõ /design-agent:status, hỏi "agent ảnh đang tới đâu", "còn ảnh nào chờ duyệt", "mở lại ảnh …", "file ảnh CT-… ở đâu", "những file chưa duyệt của video hôm qua", "upload xong chưa".
 argument-hint: "[DS-ID | CT-ID | từ khoá]"
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read
 ---

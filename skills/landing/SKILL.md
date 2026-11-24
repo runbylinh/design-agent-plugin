@@ -1,7 +1,7 @@
 ---
 name: landing
 description: >-
-  Thiết kế landing page thành file HTML một trang theo Brand Kit — trang đăng ký (lead/form), bán khoá học/sản phẩm, sự kiện/workshop/webinar, giới thiệu dịch vụ — từ nội dung người dùng đưa, Brief của Agent Content, hoặc cấu trúc học được từ /image-agent:research. Chốt brief, đề xuất dàn ý section, viết HTML/CSS (màu, font Brand Kit, ưu tiên điện thoại, không thư viện ngoài), tự chụp máy tính + điện thoại và kiểm lỗi (tràn ngang, ảnh hỏng, tương phản, nút chưa có link), trình duyệt, quản lý phiên bản, bàn giao file HTML dán được vào LadiPage/Netlify. Dùng khi người dùng gõ /image-agent:landing, nói "thiết kế landing page", "làm trang đăng ký", "làm sales page", "landing cho khoá học/workshop", "code landing HTML", "sửa landing LP-…".
+  Thiết kế landing page thành file HTML một trang theo Brand Kit — trang đăng ký (lead/form), bán khoá học/sản phẩm, sự kiện/workshop/webinar, giới thiệu dịch vụ — từ nội dung người dùng đưa, Brief của Agent Content, hoặc cấu trúc học được từ /design-agent:research. Chốt brief, đề xuất dàn ý section, viết HTML/CSS (màu, font Brand Kit, ưu tiên điện thoại, không thư viện ngoài), tự chụp máy tính + điện thoại và kiểm lỗi (tràn ngang, ảnh hỏng, tương phản, nút chưa có link), trình duyệt, quản lý phiên bản, bàn giao file HTML dán được vào LadiPage/Netlify. Dùng khi người dùng gõ /design-agent:landing, nói "thiết kế landing page", "làm trang đăng ký", "làm sales page", "landing cho khoá học/workshop", "code landing HTML", "sửa landing LP-…".
 argument-hint: "[LP-ID | mô tả trang]"
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Bash(cp:*), Bash(ls:*), Read, Write, Edit, Agent
 ---

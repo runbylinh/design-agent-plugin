@@ -1,7 +1,7 @@
 ---
 name: design
 description: >-
-  Thiết kế ấn phẩm tĩnh mới theo Brand Kit — thumbnail YouTube, carousel nhiều trang, ảnh Facebook/Instagram, ảnh quảng cáo và biến thể thử nghiệm, poster workshop/sự kiện/mở bán, ảnh bìa kênh, biểu đồ/case study, đồ hoạ cho video (Graphic Pack theo Scene ID) — từ yêu cầu trực tiếp (chữ, ảnh thô, ý tưởng, ảnh tham khảo) hoặc từ Brief ảnh / Script video đã duyệt của Agent Content (TASK-/CT-). Tự tìm logo/ảnh trong Media Assets, tách nền, dàn trang, tự kiểm, trình duyệt, xuất PNG/JPG/PDF, đưa lên Google Drive và cập nhật 04 Production. Dùng khi người dùng gõ /image-agent:design, nói "thiết kế…", "làm thumbnail/carousel/poster/ảnh bìa/ảnh quảng cáo", "làm ảnh cho CT-…/TASK-…", "dựng đồ hoạ cho video", "vẽ biểu đồ", "làm bộ ảnh chiến dịch".
+  Thiết kế ấn phẩm tĩnh mới theo Brand Kit — thumbnail YouTube, carousel nhiều trang, ảnh Facebook/Instagram, ảnh quảng cáo và biến thể thử nghiệm, poster workshop/sự kiện/mở bán, ảnh bìa kênh, biểu đồ/case study, đồ hoạ cho video (Graphic Pack theo Scene ID) — từ yêu cầu trực tiếp (chữ, ảnh thô, ý tưởng, ảnh tham khảo) hoặc từ Brief ảnh / Script video đã duyệt của Agent Content (TASK-/CT-). Tự tìm logo/ảnh trong Media Assets, tách nền, dàn trang, tự kiểm, trình duyệt, xuất PNG/JPG/PDF, đưa lên Google Drive và cập nhật 04 Production. Dùng khi người dùng gõ /design-agent:design, nói "thiết kế…", "làm thumbnail/carousel/poster/ảnh bìa/ảnh quảng cáo", "làm ảnh cho CT-…/TASK-…", "dựng đồ hoạ cho video", "vẽ biểu đồ", "làm bộ ảnh chiến dịch".
 argument-hint: "[TASK-ID | CT-ID | mô tả]"
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Bash(base64:*), Read, Write, Edit, Agent
 ---

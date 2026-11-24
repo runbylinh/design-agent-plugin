@@ -1,4 +1,4 @@
-"""ia — lệnh của Agent 02 Ảnh (image-agent). Chạy `ia help`."""
+"""ia — lệnh của Agent 02 Design (design-agent). Chạy `ia help`."""
 import os
 import sys
 from pathlib import Path
@@ -8,7 +8,7 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 
-HELP = """ia — Agent 02 Ảnh (dựng ấn phẩm tĩnh theo Brand Kit)
+HELP = """ia — Agent 02 Design (dựng ấn phẩm tĩnh theo Brand Kit)
 
 Cài đặt & studio
   ia setup | ia doctor

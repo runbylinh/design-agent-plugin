@@ -67,11 +67,11 @@
     ["Story", "1080×1920 (9:16)", "Tránh 14% trên, 20% dưới", "Ít chữ", "Thông điệp + CTA trong vùng an toàn", "Chữ sát mép trên/dưới", "Xem như trên điện thoại", "formats/facebook.md"]
   ],
   "huong_dan": [
-    ["HỆ THỐNG DESIGN ẢNH — Agent 02 Ảnh"],
+    ["HỆ THỐNG DESIGN ẢNH — Agent 02 Design"],
     ["File này là nơi quản lý mọi việc thiết kế ảnh của brand: Brief, ảnh thô, thành phẩm, quá trình sửa – duyệt."],
     [""],
     ["CÁCH DÙNG"],
-    ["1. Giao việc trực tiếp: nói với Claude (/image-agent:design). Agent tạo dòng ở tab 01 với DS ID, ghi Brief vào cột Brief ảnh."],
+    ["1. Giao việc trực tiếp: nói với Claude (/design-agent:design). Agent tạo dòng ở tab 01 với DS ID, ghi Brief vào cột Brief ảnh."],
     ["2. Việc từ Agent Content: Agent 02 chép Brief đã duyệt từ 04 Production sang tab 01 (Nguồn = Agent 01 – Content). Brief đó CHỈ ĐỌC — muốn sửa chữ thì sửa bên Agent Content."],
     ["3. Ảnh thô đặt trong Media Assets › 01 Ảnh › 01 Source thô (đúng nhóm) và có một dòng ở tab 02 Source. Ảnh người: cột Tag phải có tên người."],
     ["4. Mỗi lần dựng / sửa / duyệt / xuất / bàn giao, agent ghi một dòng ở tab 03 Recap thiết kế."],

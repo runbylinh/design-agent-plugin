@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Kiểm thử Agent 02 Ảnh: studio, brand, dựng, khoá chữ, duyệt, xuất, QA sau xuất, trong suốt, đổi khổ, nhân bản, mẫu,
+# Kiểm thử Agent 02 Design: studio, brand, dựng, khoá chữ, duyệt, xuất, QA sau xuất, trong suốt, đổi khổ, nhân bản, mẫu,
 # Brief/script, Graphic Asset List, nguồn đổi, bàn giao Drive, tìm việc cũ. Chạy: bash tests/run.sh
 # (Không tách nền — tránh tải model; tách nền thử bằng tay: ia cutout.)
 set -u

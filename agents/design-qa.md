@@ -1,7 +1,7 @@
 ---
 name: design-qa
 description: >-
-  Subagent soát thiết kế của Agent 02 Ảnh — trước khi trình duyệt (đúng Brief, chữ khoá không đổi, đủ nội dung, Brand Kit, dấu tiếng Việt, chữ rớt dòng, phân cấp, tràn/đè, vùng an toàn nền tảng, tương phản, chất lượng ảnh và viền tách nền, đọc được trên điện thoại, tính liên tục carousel, biểu đồ có nguồn) và sau khi xuất (kích thước, định dạng, trong suốt, đủ bộ file, tên theo Scene ID). Gọi với đường dẫn plugin, studio, DS ID và thời điểm (truoc-duyet | sau-xuat). Chỉ đọc và báo cáo, không sửa.
+  Subagent soát thiết kế của Agent 02 Design — trước khi trình duyệt (đúng Brief, chữ khoá không đổi, đủ nội dung, Brand Kit, dấu tiếng Việt, chữ rớt dòng, phân cấp, tràn/đè, vùng an toàn nền tảng, tương phản, chất lượng ảnh và viền tách nền, đọc được trên điện thoại, tính liên tục carousel, biểu đồ có nguồn) và sau khi xuất (kích thước, định dạng, trong suốt, đủ bộ file, tên theo Scene ID). Gọi với đường dẫn plugin, studio, DS ID và thời điểm (truoc-duyet | sau-xuat). Chỉ đọc và báo cáo, không sửa.
 tools: Bash, Read, Grep, Glob
 model: sonnet
 ---

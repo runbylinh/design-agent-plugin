@@ -1,7 +1,7 @@
 ---
 name: adapt
 description: >-
-  Tái sử dụng thiết kế của Agent 02 Ảnh — chuyển một thiết kế sang kích thước khác bằng cách dàn lại bố cục (Facebook → Story 9:16, ảnh quảng cáo 4:5, thumbnail, ảnh bìa…), nhân bản hàng loạt từ mẫu đã duyệt cho nhiều chủ đề, tạo biến thể đa kênh, lưu và dùng thư viện mẫu của Brand Kit. Dùng khi người dùng gõ /image-agent:adapt, nói "chuyển sang story / 4:5 / 1:1", "làm thêm các kích thước", "từ mẫu này làm 10 ảnh", "nhân bản cho các chủ đề", "lưu làm mẫu", "dùng mẫu …".
+  Tái sử dụng thiết kế của Agent 02 Design — chuyển một thiết kế sang kích thước khác bằng cách dàn lại bố cục (Facebook → Story 9:16, ảnh quảng cáo 4:5, thumbnail, ảnh bìa…), nhân bản hàng loạt từ mẫu đã duyệt cho nhiều chủ đề, tạo biến thể đa kênh, lưu và dùng thư viện mẫu của Brand Kit. Dùng khi người dùng gõ /design-agent:adapt, nói "chuyển sang story / 4:5 / 1:1", "làm thêm các kích thước", "từ mẫu này làm 10 ảnh", "nhân bản cho các chủ đề", "lưu làm mẫu", "dùng mẫu …".
 argument-hint: "[DS-ID | tên mẫu]"
 allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/bin/ia:*), Bash(ia:*), Read, Write, Edit, Agent
 ---

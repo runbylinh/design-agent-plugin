@@ -1,4 +1,4 @@
-# Nguyên tắc của Agent 02 Ảnh (đọc trước mọi việc)
+# Nguyên tắc của Agent 02 Design (đọc trước mọi việc)
 
 ## Nội dung
 1. **Không đổi chữ đã duyệt** (tiêu đề, số liệu, lời hứa, Offer, CTA). Chỉ được xuống dòng, tô nhấn, đổi cách thể hiện. Máy chặn qua `content_locked`.
