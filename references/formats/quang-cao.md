@@ -18,3 +18,8 @@
 Brief ghi "các phiên bản thử nghiệm" → mỗi biến thể **khác đúng một biến** (Hook / hình / bố cục), giữ nguyên Offer.
 Làm bằng các hướng `huong-a/b/c` trong cùng phiên bản, ghi giả thuyết từng hướng trong `manifest` (note khi tạo version) và trong lời trình duyệt.
 Đặt tên file xuất có ký hiệu biến thể (id trang `A`, `B`, `C` hoặc job riêng mỗi biến thể).
+
+## Đặt tên để đo được (bắt buộc khi sẽ chạy thật)
+- Mỗi biến thể sẽ chạy thật = **một job DS riêng** (dùng `ia template use` / `ia batch` để nhân), để số liệu gắn đúng thiết kế.
+- Tên quảng cáo trong Ads Manager bắt đầu bằng mã DS: `DS-261124-03 · <tên ngắn> · <biến thể>`. File xuất đã mang mã DS — nhắc người dùng giữ tên khi tải lên.
+- Sau 3–7 ngày chạy → `/design-agent:hieu-qua` để xem biến thể nào thắng.

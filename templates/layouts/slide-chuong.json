@@ -1,0 +1,48 @@
+{
+ "name": "slide-chuong",
+ "mo_ta": "Slide chuyển chương — số chương lớn + tên chương, nhiều khoảng trắng",
+ "dung_cho": [
+  "slide"
+ ],
+ "variants": {
+  "16:9": {
+   "regions": {
+    "stat": {
+     "box": [
+      0.06,
+      0.22,
+      0.3,
+      0.3
+     ],
+     "size": "mega"
+    },
+    "hook": {
+     "box": [
+      0.06,
+      0.52,
+      0.7,
+      0.2
+     ],
+     "size": "xl"
+    },
+    "sub": {
+     "box": [
+      0.06,
+      0.73,
+      0.6,
+      0.08
+     ],
+     "size": "md"
+    },
+    "logo": {
+     "box": [
+      0.84,
+      0.88,
+      0.12,
+      0.06
+     ]
+    }
+   }
+  }
+ }
+}

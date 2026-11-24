@@ -7,7 +7,7 @@
       "name": "design-agent",
       "source": "./",
       "description": "Agent 02 Design: thiết kế ấn phẩm tĩnh và landing page theo Brand Kit, nghiên cứu mẫu thiết kế, nối với Agent Content và Agent Video.",
-      "version": "0.4.0"
+      "version": "0.5.0"
     }
   ]
 }

@@ -40,7 +40,7 @@ Chỉ dùng cho Sheet trống (một tab mặc định).
 
 ## Giới hạn Drive đã đo (2026-10-23)
 Connector Google Drive chở file nhị phân dưới dạng base64 trong hội thoại: 2KB khớp checksum; 28KB vượt trần → **~20KB/file ảnh**. Không có MD5.
-Connector dùng để **tìm, lấy ID/link, tạo thư mục, ghi file chữ** (`textContent`). Ảnh đi bằng người dùng kéo thả, hoặc Drive for Desktop (`ia drive setup --che-do dong-bo`).
+Connector dùng để **tìm, lấy ID/link, tạo thư mục, ghi file chữ** (`textContent`). Ảnh đi bằng Claude in Chrome tải lên giao diện Drive (Asset Publishing, cách A), người dùng kéo thả, hoặc Drive for Desktop (`ia drive setup --che-do dong-bo`).
 
 ## Asset Retrieval (trước khi dựng)
 1. `ia assets find <từ khoá> [--loai …]` — tab 02 Source (bộ đệm) + Brand Kit + ảnh đã có trên máy.
@@ -54,6 +54,10 @@ Connector dùng để **tìm, lấy ID/link, tạo thư mục, ghi file chữ** 
 `ia export` → `ia check` → `ia publish DS` → làm đúng các bước lệnh in ra:
 1. `01 Ảnh/02 Final` (drive.final_id) → thư mục tháng → thư mục `DS-… · tên` → thư mục con `_nguon` (search trước, thiếu mới `create_file` folder). Không chia sẻ, không đổi quyền.
 2. File chữ vào `_nguon` bằng `textContent`, `disableConversionToGoogleType: true`.
-3. Người dùng kéo ảnh/PDF từ `jobs/DS/ban-giao/` vào thư mục việc.
+3. Ảnh/PDF từ `jobs/DS/ban-giao/` vào thư mục việc:
+   - **Cách A — Agent tự tải (mặc định khi có Claude in Chrome):** mở link thư mục việc trên drive.google.com (người dùng đã đăng nhập sẵn) → Mới → Tải tệp lên
+     → `file_upload` vào ô chọn tệp với các file cần đưa (≤ 10 file mỗi lần, đã thử chạy với file zip vài chục MB) → chờ thanh tải xong.
+     Không đăng nhập hộ; trang đòi đăng nhập → nhờ người dùng. Không đổi quyền chia sẻ.
+   - **Cách B:** người dùng kéo thả (gửi link thư mục) — khi không có Chrome hoặc cách A lỗi.
 4. `search_files parentId = …` (thư mục việc + `_nguon`) → `ia link DS --url <viewUrl thư mục việc> --folder-id <id> --kiem '{"tên": fileSize,…}' [--source-url <link 07 Theo việc/DS hoặc link ảnh Source>]`.
 5. `ia sheet push`. Có phiếu TASK → `ia sync DS xuat-thu` (+ push của content-agent) — link Final ghi vào **cả hai** Sheet.

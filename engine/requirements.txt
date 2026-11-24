@@ -2,3 +2,4 @@ playwright==1.64.0
 pillow>=11
 numpy>=2
 rembg[cpu]>=2.0.67
+python-pptx>=1.0

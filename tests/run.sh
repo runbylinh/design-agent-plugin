@@ -221,6 +221,69 @@ expect_code 2 "không duyệt bản còn lỗi" "$IA" landing approve "$LP" --v 
 expect_out "Đã duyệt v1" "duyệt bản đạt → final/" "$IA" landing approve "$LP" --v 1 --xac-nhan "ok duyệt"
 [ -f "landing/$LP/final/index.html" ] && ok "có final/index.html" || bad "thiếu final"
 
+echo "■ Slide → PPTX cho Canva"
+cd "$T/st"
+DSL=$("$IA" job new --loai slide --ten "Thử deck" | tail -1)
+cat > "jobs/$DSL/v1/design.json" <<'EOF2'
+{"brand":"demo","canvas":{"preset":"slide_16x9"},"bg":{"color":"paper"},
+ "pages":[{"id":"s01","layout":"slide-bia","elements":[{"id":"h","type":"text","role":"hook","content":"Lập kế hoạch **cùng AI**","content_locked":true},{"id":"s","type":"text","role":"sub","content":"Buổi 01"}]},
+          {"id":"s02","layout":"slide-hai-cot","elements":[{"id":"h","type":"text","role":"hook","content":"Trước và sau"},{"id":"a","type":"text","role":"sub","slot":"cot1","content":"Trước"},{"id":"b","type":"text","role":"sub","slot":"cot2","content":"Sau"}]}]}
+EOF2
+expect_code 0 "dựng deck bằng bố cục slide" "$IA" render "$DSL"
+"$IA" approve "$DSL" --v 1 --xac-nhan "ok" >/dev/null
+expect_code 0 "xuất png + pdf + pptx" "$IA" export "$DSL" --dinh-dang png,pdf,pptx
+"$PY" - "jobs/$DSL/approved/$DSL.pptx" <<'EOF2' && ok "PPTX đủ 2 slide, chữ sửa được, giữ nhấn màu" || bad "PPTX sai"
+import sys
+from pptx import Presentation
+p = Presentation(sys.argv[1])
+assert len(p.slides) == 2, len(p.slides)
+txt = [sh.text_frame.text for s in p.slides for sh in s.shapes if sh.has_text_frame]
+assert any("Lập kế hoạch cùng AI" in t for t in txt), txt
+runs = [r for s in p.slides for sh in s.shapes if sh.has_text_frame for para in sh.text_frame.paragraphs for r in para.runs if "AI" in r.text]
+assert runs and all(r.font.size and r.font.size.pt > 20 for r in runs)
+EOF2
+ls jobs/$DSL/v1/.nen-* >/dev/null 2>&1 && bad "còn ảnh nền tạm" || ok "dọn ảnh nền tạm"
+
+echo "■ Ấn phẩm in"
+DIN=$("$IA" job new --loai in_an --ten "Thử danh thiếp" | tail -1)
+cat > "jobs/$DIN/v1/design.json" <<'EOF2'
+{"brand":"demo","canvas":{"preset":"in_namecard"},"layout":"tieu-de-giua","bg":{"color":"primary"},"dark":true,
+ "pages":[{"id":"p1","elements":[{"id":"h","type":"text","role":"hook","content":"Tên Người Dùng"},{"id":"x","type":"text","role":"sub","content":"Sát mép","box":[0,0.0,0.5,0.02]}]}]}
+EOF2
+expect_out "tràn lề" "chữ đè vùng tràn lề bị báo" "$IA" render "$DIN"
+"$PY" - "jobs/$DIN/v1/design.json" <<'EOF2'
+import json,sys; d=json.load(open(sys.argv[1])); d["pages"][0]["elements"].pop(); json.dump(d,open(sys.argv[1],"w"),ensure_ascii=False)
+EOF2
+"$IA" render "$DIN" >/dev/null 2>&1; "$IA" approve "$DIN" --v 1 --xac-nhan "ok" >/dev/null
+expect_out "tràn lề 3mm" "xuất PDF in báo thông số" "$IA" export "$DIN" --cmyk
+"$PY" - "jobs/$DIN/approved" "$DIN" <<'EOF2' && ok "PDF đúng 96×60mm (gồm tràn lề), có bản CMYK" || bad "PDF in sai kích thước"
+import sys, re
+from pathlib import Path
+d, did = Path(sys.argv[1]), sys.argv[2]
+raw = (d / f"{did}.pdf").read_bytes()
+w, h = [float(x) for x in re.search(rb"/MediaBox \[ ?0 0 ([\d.]+) ([\d.]+)", raw).groups()]
+assert abs(w / 72 * 25.4 - 96) < 1 and abs(h / 72 * 25.4 - 60) < 1, (w, h)
+assert (d / f"{did}-cmyk.pdf").exists()
+EOF2
+
+echo "■ Mockup + khổ mới"
+expect_out "Mockup" "mockup điện thoại" "$IA" mockup "$T/anh.jpg" --kieu dien-thoai --out "$T/mk.png"
+"$PY" -c "from PIL import Image;im=Image.open('$T/mk.png');assert im.size==(1080,1350)" && ok "mockup đúng khung" || bad "mockup sai khung"
+expect_out "email_header" "khổ email/banner/LinkedIn" "$IA" presets
+
+echo "■ Học từ số liệu hiệu quả"
+"$IA" template save "$DSL" --ten mau-deck >/dev/null 2>&1
+cat > "$T/ads.csv" <<EOF2
+ten,impressions,clicks,spend,results
+$D6 · thử A,1000,30,100000,3
+$DSL · thử B,2000,20,100000,1
+quảng cáo không gắn mã,500,5,10000,0
+EOF2
+expect_out "1 dòng không khớp" "nhập số liệu, báo dòng không khớp" "$IA" hieu-qua nhap "$T/ads.csv" --nguon meta --ngay 2026-11-20
+expect_out "| $D6 |" "báo cáo xếp hạng theo CTR" "$IA" hieu-qua bao-cao --chi-so ctr
+"$PY" -c "t=open('hieu-qua-bao-cao.md').read();a=t.index('| $D6 |');b=t.index('| $DSL |');assert a<b" && ok "CTR 3% xếp trên 1%" || bad "xếp hạng sai"
+expect_out "CTR %=3.00" "xem số liệu một thiết kế" "$IA" hieu-qua ds "$D6"
+
 echo
 echo "Kết quả: $PASS đạt · $FAIL lỗi"
 [ "$FAIL" = 0 ]

@@ -1,6 +1,6 @@
 """Job thiết kế (DS ID), phiên bản, duyệt, tìm lại việc cũ.
 
-  ia job new --loai <thumbnail|carousel|facebook|quang_cao|poster|anh_bia|bieu_do|video_graphic|story>
+  ia job new --loai <thumbnail|carousel|facebook|quang_cao|poster|anh_bia|bieu_do|video_graphic|story|slide|in_an|banner>
              --ten "<tên ngắn>" [--brand ten-brand] [--ct CT-…] [--task TASK-…] [--che-do truc_tiep|content_brief|video_script]
   ia job show <DS>                       toàn bộ manifest (JSON)
   ia job find <từ khoá | CT-… | TASK-…>  tìm job cũ theo tên, mã Content, mã phiếu
@@ -17,7 +17,8 @@ from pathlib import Path
 from common import (die, find_studio, info, log, manifest, now, read_json, save_manifest, slug, studio_config,
                     version_dir, warn, write_json)
 
-LOAI = ["thumbnail", "carousel", "facebook", "anh_don", "quang_cao", "poster", "anh_bia", "bieu_do", "video_graphic", "story"]
+LOAI = ["thumbnail", "carousel", "facebook", "anh_don", "quang_cao", "poster", "anh_bia", "bieu_do", "video_graphic", "story",
+        "slide", "in_an", "banner"]
 STATUS_ORDER = ["Cần sửa", "Chờ duyệt", "Đang làm", "Mới", "Đã duyệt", "Chờ upload", "Đã bàn giao", "Tạm dừng"]
 
 

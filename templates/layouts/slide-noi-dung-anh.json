@@ -1,0 +1,74 @@
+{
+ "name": "slide-noi-dung-anh",
+ "mo_ta": "Slide nội dung có ảnh — tiêu đề trên, danh sách/đoạn trái, ảnh/sơ đồ/ảnh chụp màn hình phải",
+ "dung_cho": [
+  "slide"
+ ],
+ "variants": {
+  "16:9": {
+   "regions": {
+    "kicker": {
+     "box": [
+      0.06,
+      0.08,
+      0.5,
+      0.04
+     ],
+     "size": "sm"
+    },
+    "hook": {
+     "box": [
+      0.06,
+      0.13,
+      0.88,
+      0.13
+     ],
+     "size": "lg"
+    },
+    "list": {
+     "box": [
+      0.06,
+      0.32,
+      0.46,
+      0.54
+     ],
+     "size": "md"
+    },
+    "sub": {
+     "box": [
+      0.06,
+      0.32,
+      0.46,
+      0.54
+     ],
+     "size": "md"
+    },
+    "subject": {
+     "box": [
+      0.56,
+      0.3,
+      0.38,
+      0.58
+     ]
+    },
+    "source": {
+     "box": [
+      0.06,
+      0.9,
+      0.6,
+      0.04
+     ],
+     "size": "xs"
+    },
+    "logo": {
+     "box": [
+      0.86,
+      0.9,
+      0.08,
+      0.05
+     ]
+    }
+   }
+  }
+ }
+}

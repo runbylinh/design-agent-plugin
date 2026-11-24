@@ -1,0 +1,57 @@
+{
+ "name": "slide-bia",
+ "mo_ta": "Slide bìa — tên bài lớn bên trái, người trình bày, ảnh/chủ thể bên phải",
+ "dung_cho": [
+  "slide"
+ ],
+ "variants": {
+  "16:9": {
+   "regions": {
+    "kicker": {
+     "box": [
+      0.06,
+      0.2,
+      0.5,
+      0.05
+     ],
+     "size": "sm"
+    },
+    "hook": {
+     "box": [
+      0.06,
+      0.26,
+      0.54,
+      0.34
+     ],
+     "size": "xl",
+     "valign": "top"
+    },
+    "sub": {
+     "box": [
+      0.06,
+      0.62,
+      0.48,
+      0.12
+     ],
+     "size": "md"
+    },
+    "subject": {
+     "box": [
+      0.6,
+      0.1,
+      0.36,
+      0.82
+     ]
+    },
+    "logo": {
+     "box": [
+      0.06,
+      0.84,
+      0.16,
+      0.07
+     ]
+    }
+   }
+  }
+ }
+}

@@ -103,7 +103,7 @@ def _overlap(a, b):
     return x * y
 
 
-def render_design(design, b, job, out_dir, locked_ref=None):
+def render_design(design, b, job, out_dir, locked_ref=None, keep_bare=False):
     """Dựng + kiểm. Trả (qa, files)."""
     from PIL import Image
     from playwright.sync_api import sync_playwright
@@ -209,7 +209,8 @@ def render_design(design, b, job, out_dir, locked_ref=None):
                 errors.append(f"Nội dung khoá '{k}' đã bị đổi chữ (chỉ được xuống dòng / tô nhấn).")
 
     for f in bare.values():
-        f.unlink(missing_ok=True)
+        if not keep_bare:
+            f.unlink(missing_ok=True)
     # xem nhanh + xem trên điện thoại
     thumbs = [Image.open(f) for f in files]
     cols = min(len(thumbs), 5)

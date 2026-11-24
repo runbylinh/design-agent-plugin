@@ -98,7 +98,8 @@ def publish(args):
             info(f"  1. Tìm/tạo thư mục '{rel}' (và thư mục con '_nguon') trong Media Assets "
                  f"({d.get('media_assets_url') or 'hỏi người dùng link Media Assets'}) — create_file mimeType folder, từng cấp.")
         info(f"  2. Ghi file chữ vào '_nguon' bằng textContent (không base64), disableConversionToGoogleType=true: {', '.join(text_files)}")
-        info(f"  3. Nhờ người dùng kéo {len(bin_files)} file ảnh/PDF từ {out} vào thư mục '{job_folder}' (gửi họ link thư mục):")
+        info(f"  3. Đưa {len(bin_files)} file ảnh/PDF từ {out} vào thư mục '{job_folder}' — cách A (Agent tự làm): Claude in Chrome mở link thư mục,")
+        info("     bấm Mới → Tải tệp lên, dùng file_upload vào ô chọn tệp với đúng các file dưới (mỗi lần ≤ 10 file); cách B: nhờ người dùng kéo thả (gửi link thư mục):")
         for n in bin_files:
             info(f"       {n}  ({sizes[n] // 1024}KB)")
         info("  4. search_files parentId = <id thư mục việc> và <id _nguon> → so tên + fileSize, rồi:")

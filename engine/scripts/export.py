@@ -1,6 +1,6 @@
 """Xuất thành phẩm từ bản ĐÃ DUYỆT + kiểm tra sau xuất (QA lần 2, phần máy làm).
 
-  ia export <DS> [--dinh-dang png,jpg,webp,pdf] [--max-kb 500]
+  ia export <DS> [--dinh-dang png,jpg,webp,pdf,pptx] [--max-kb 500] [--cmyk]
   ia check <DS>                      kiểm lại bộ file đã xuất (mở từng file, kích thước, trong suốt, dung lượng, đủ trang)
 
 Thành phẩm ở jobs/<DS>/approved/:
@@ -55,7 +55,7 @@ def export(args):
     design = read_json(vd / "design.json")
     b = brandmod.load(design.get("brand") or m.get("brand"))
     # dựng lại từ design.json đã duyệt để chắc chắn file xuất đúng bản duyệt
-    qa, files = render_design(design, b, m["_dir"], vd, m.get("noi_dung_khoa") or None)
+    qa, files = render_design(design, b, m["_dir"], vd, m.get("noi_dung_khoa") or None, keep_bare=True)
     if qa["loi"] and "--chap-nhan-loi" not in args:
         die("Bản duyệt dựng lại có lỗi chặn:\n  " + "\n  ".join(qa["loi"]), 2)
     ex = design.get("export", {})
@@ -63,8 +63,12 @@ def export(args):
     max_kb = int(opt(args, "--max-kb", ex.get("max_kb", 0)) or 0)
     transparent = any(isinstance(p.get("bg", design.get("bg")), dict) and p.get("bg", design.get("bg")).get("transparent")
                       for p in design.get("pages", [{}]))
+    import presets as _pre
+    prn = (_pre.PRESETS.get((design.get("canvas") or {}).get("preset") or "", {}) or {}).get("print")
     if not fmts:
-        fmts = ["png"] + (["pdf"] if len(files) > 1 and not transparent else [])
+        fmts = ["png"] + (["pdf"] if (len(files) > 1 or prn) and not transparent else [])
+    if prn and "pdf" not in fmts:
+        fmts.append("pdf")
     out = Path(m["_dir"]) / "approved"
     if out.exists():
         shutil.rmtree(out)
@@ -77,7 +81,7 @@ def export(args):
         im.load()
         imgs.append((f.stem, im))
         for fmt in fmts:
-            if fmt == "pdf":
+            if fmt in ("pdf", "pptx"):
                 continue
             if transparent and fmt in ("jpg", "jpeg"):
                 warn("Thiết kế nền trong suốt → bỏ JPG (JPG không giữ được trong suốt), xuất PNG.")
@@ -89,8 +93,19 @@ def export(args):
         im.convert("RGB").resize((round(im.width * sc), round(im.height * sc))).save(out / "xem-dien-thoai" / f"{f.stem}.png")
     if "pdf" in fmts:
         rgb = [im.convert("RGB") for _, im in imgs]
-        rgb[0].save(out / f"{did}.pdf", save_all=True, append_images=rgb[1:], resolution=150)
+        dpi = prn["dpi"] if prn else 150
+        rgb[0].save(out / f"{did}.pdf", save_all=True, append_images=rgb[1:], resolution=dpi)
         made.append(f"{did}.pdf")
+        if prn and "--cmyk" in args:
+            cm = [im.convert("CMYK") for im in rgb]
+            cm[0].save(out / f"{did}-cmyk.pdf", save_all=True, append_images=cm[1:], resolution=dpi)
+            made.append(f"{did}-cmyk.pdf")
+        if prn:
+            info(f"File in: {prn['mm'][0]}×{prn['mm'][1]}mm + tràn lề {prn['bleed_mm']}mm mỗi cạnh, {dpi}dpi — báo xưởng in: đã có tràn lề, xén theo kích thước thật.")
+    if "pptx" in fmts:
+        import pptx_export
+        pptx_export.build(vd, out / f"{did}.pptx", design)
+        made.append(f"{did}.pptx")
     # file nguồn
     shutil.copy2(vd / "design.json", out / "design.json")
     shutil.copy2(vd / "index.html", out / "source.html")
@@ -125,6 +140,8 @@ def check(args):
             errors.append(f"Thiếu file {name}")
             continue
         sizes[name] = p.stat().st_size // 1024
+        if name.endswith(".pptx"):
+            continue
         if name.endswith(".pdf"):
             raw = p.read_bytes()
             pages = raw.count(b"/Type /Page") - raw.count(b"/Type /Pages")

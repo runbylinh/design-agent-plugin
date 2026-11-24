@@ -31,18 +31,54 @@ PRESETS = {
     "video_card_16x9": {"w": 1920, "h": 1080, "ten": "Thẻ đồ hoạ video ngang", "safe": [0.05, 0.08, 0.90, 0.76],
                         "avoid": {"phụ đề": [0, 0.84, 1, 0.16]}},
     "chart_16x9": {"w": 1600, "h": 900, "ten": "Biểu đồ ngang", "safe": [0.05, 0.06, 0.90, 0.88]},
+    # khổ web / email / mạng xã hội khác
+    "tiktok_cover": {"w": 1080, "h": 1920, "ten": "Ảnh bìa video TikTok / Reels",
+                     "safe": [0.06, 0.16, 0.88, 0.56], "avoid": {"lưới hồ sơ cắt còn 3:4 giữa": [0, 0, 1, 0.12], "caption dưới": [0, 0.78, 1, 0.22]}},
+    "email_header": {"w": 1200, "h": 400, "ten": "Đầu email (hiển thị 600×200)", "safe": [0.06, 0.1, 0.88, 0.8]},
+    "linkedin_banner": {"w": 1584, "h": 396, "ten": "Ảnh bìa LinkedIn cá nhân",
+                        "safe": [0.3, 0.12, 0.66, 0.76], "avoid": {"avatar (trái dưới)": [0, 0.35, 0.3, 0.65]}},
+    "website_banner": {"w": 1920, "h": 600, "ten": "Banner website (hero ngang)", "safe": [0.2, 0.1, 0.6, 0.8]},
+    "zalo_post": {"w": 1200, "h": 900, "ten": "Ảnh bài viết Zalo OA (4:3)", "safe": [0.06, 0.06, 0.88, 0.88]},
+    # slide thuyết trình
+    "slide_16x9": {"w": 1920, "h": 1080, "ten": "Slide thuyết trình 16:9", "safe": [0.05, 0.07, 0.9, 0.86]},
+
 }
+
+def _print(ten, mm_w, mm_h, dpi, bleed=3, margin=5):
+    """Khổ in: kích thước thật (mm) + tràn lề `bleed` mm mỗi cạnh, ở `dpi`. Vùng an toàn = lùi vào bleed + margin."""
+    tw, th = mm_w + 2 * bleed, mm_h + 2 * bleed
+    px = lambda mm: round(mm / 25.4 * dpi)
+    inset_x, inset_y = (bleed + margin) / tw, (bleed + margin) / th
+    return {"w": px(tw), "h": px(th), "ten": f"{ten} — {mm_w}×{mm_h}mm, tràn lề {bleed}mm, {dpi}dpi",
+            "safe": [round(inset_x, 4), round(inset_y, 4), round(1 - 2 * inset_x, 4), round(1 - 2 * inset_y, 4)],
+            "print": {"mm": [mm_w, mm_h], "bleed_mm": bleed, "dpi": dpi},
+            "avoid": {"tràn lề trên (bị xén)": [0, 0, 1, round(bleed / th, 4)], "tràn lề dưới (bị xén)": [0, round(1 - bleed / th, 4), 1, round(bleed / th, 4)],
+                      "tràn lề trái (bị xén)": [0, 0, round(bleed / tw, 4), 1], "tràn lề phải (bị xén)": [round(1 - bleed / tw, 4), 0, round(bleed / tw, 4), 1]}}
+
+
+PRESETS.update({
+    "in_namecard": _print("Danh thiếp", 90, 54, 300, margin=4),
+    "in_a4_doc": _print("A4 dọc (tờ rơi, poster in)", 210, 297, 300),
+    "in_a4_ngang": _print("A4 ngang (chứng nhận, giấy mời)", 297, 210, 300),
+    "in_a3_doc": _print("A3 dọc (poster)", 297, 420, 200, margin=8),
+    "in_standee": _print("Standee 60×160cm", 600, 1600, 100, bleed=5, margin=30),
+    "in_banner_cuon": _print("Banner cuốn 80×200cm", 800, 2000, 72, bleed=5, margin=40),
+    "in_backdrop": _print("Backdrop 3×2m", 3000, 2000, 50, bleed=10, margin=80),
+})
+
 
 TYPE_DEFAULT = {
     "thumbnail": "youtube_thumbnail", "carousel": "carousel_4x5", "facebook": "facebook_4x5", "anh_don": "facebook_4x5",
     "quang_cao": "meta_ads_4x5", "poster": "poster_4x5", "anh_bia": "facebook_cover", "bieu_do": "chart_16x9",
     "video_graphic": "video_overlay_9x16", "story": "story_9x16",
+    "slide": "slide_16x9", "in_an": "in_a4_doc", "banner": "website_banner",
 }
 
 
 def ratio_key(w, h):
     r = w / h
-    cands = {"16:9": 16 / 9, "4:5": 4 / 5, "1:1": 1.0, "9:16": 9 / 16, "3:1": 3.0, "21:9": 21 / 9, "3:4": 3 / 4}
+    cands = {"16:9": 16 / 9, "4:5": 4 / 5, "1:1": 1.0, "9:16": 9 / 16, "3:1": 3.0, "21:9": 21 / 9, "3:4": 3 / 4,
+             "2:3": 2 / 3, "3:2": 3 / 2, "1:2.5": 1 / 2.5, "4:1": 4.0}
     return min(cands, key=lambda k: abs(cands[k] - r))
 
 

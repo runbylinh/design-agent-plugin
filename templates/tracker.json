@@ -13,7 +13,7 @@
       "widths": {"Brief ảnh": 320, "Chữ trên ảnh (đã duyệt)": 280, "Yêu cầu riêng": 220, "Link source thô": 200, "Link final": 200, "Ghi chú": 220},
       "enums": {
         "Nguồn": ["Trực tiếp", "Agent 01 – Content", "Agent 03 – Video"],
-        "Loại ấn phẩm": ["Thumbnail", "Carousel", "Ảnh Facebook", "Ảnh quảng cáo", "Poster", "Ảnh bìa", "Biểu đồ", "Đồ hoạ video", "Story"],
+        "Loại ấn phẩm": ["Thumbnail", "Carousel", "Ảnh Facebook", "Ảnh quảng cáo", "Poster", "Ảnh bìa", "Biểu đồ", "Đồ hoạ video", "Story", "Slide", "Ấn phẩm in", "Banner web/email"],
         "Trạng thái": ["Mới", "Đang làm", "Chờ duyệt", "Cần sửa", "Đã duyệt", "Chờ upload", "Đã bàn giao", "Tạm dừng"]
       }
     },
@@ -53,7 +53,8 @@
   "ma_loai": {
     "thumbnail": "Thumbnail", "carousel": "Carousel", "facebook": "Ảnh Facebook", "anh_don": "Ảnh Facebook",
     "quang_cao": "Ảnh quảng cáo", "poster": "Poster", "anh_bia": "Ảnh bìa", "bieu_do": "Biểu đồ",
-    "video_graphic": "Đồ hoạ video", "story": "Story"
+    "video_graphic": "Đồ hoạ video", "story": "Story",
+    "slide": "Slide", "in_an": "Ấn phẩm in", "banner": "Banner web/email"
   },
   "tieu_chuan": [
     ["Thumbnail", "1280×720 (16:9)", "Góc dưới phải bị thời lượng video che", "≤ 4–5 từ", "Một điểm nhấn hình (mặt/sản phẩm 35–55% khung); chữ bổ sung tiêu đề; một màu nhấn", "Chữ nhỏ nhiều dòng, 3 màu nhấn, mặt quá nhỏ, ảnh mờ", "Đọc được ở 360px điện thoại; khác thumbnail gần nhất", "formats/thumbnail.md"],
@@ -64,7 +65,10 @@
     ["Ảnh bìa", "FB 1640×624; YouTube 2560×1440; Zalo 1500×500", "FB: avatar che góc dưới trái; YouTube: chỉ dải giữa 1546×423", "Một câu định vị", "Câu định vị + nhận diện trong vùng an toàn", "Chữ ra ngoài vùng an toàn, tự sáng tác khẩu hiệu", "Xem hai bên bị cắt trên điện thoại", "formats/anh-bia.md"],
     ["Biểu đồ", "1600×900 hoặc theo ấn phẩm", "Lề 5%", "Tiêu đề + nhãn ngắn", "Số đúng nguồn, đơn vị, nhãn, dòng nguồn, trục từ 0, một điểm nhấn", "Đặt ra số, cắt trục phóng đại, donut > 5 phần", "Đối chiếu từng số với nguồn", "formats/bieu-do.md"],
     ["Đồ hoạ video", "1080×1920 PNG trong suốt; 1920×1080", "Dọc: tránh nút phải, phụ đề + caption dưới, thanh trên", "Ngắn, đọc trong 2–3 giây", "Đặt tên theo Scene ID; hướng dẫn đặt vào video", "Đồ hoạ thừa, đè phụ đề", "Đủ cảnh trong Graphic Asset List đã duyệt", "formats/video-graphic.md"],
-    ["Story", "1080×1920 (9:16)", "Tránh 14% trên, 20% dưới", "Ít chữ", "Thông điệp + CTA trong vùng an toàn", "Chữ sát mép trên/dưới", "Xem như trên điện thoại", "formats/facebook.md"]
+    ["Story", "1080×1920 (9:16)", "Tránh 14% trên, 20% dưới", "Ít chữ", "Thông điệp + CTA trong vùng an toàn", "Chữ sát mép trên/dưới", "Xem như trên điện thoại", "formats/facebook.md"],
+    ["Slide", "1920×1080 (16:9)", "Lề 5–7%", "Tiêu đề ≤ 10 từ; mỗi slide một ý", "Bìa – mục lục – chương – nội dung – kết; cùng hệ lưới, số trang", "Nhồi chữ, mỗi slide một kiểu, chữ < 24px", "Xem cả bộ thu nhỏ: đọc lướt tiêu đề vẫn hiểu mạch", "formats/slide.md"],
+    ["Ấn phẩm in", "Theo khổ mm + tràn lề 3mm, 300dpi (khổ lớn 50–100dpi)", "Chữ lùi vào ≥ 5mm sau đường xén", "Theo khổ", "Nền phủ hết vùng tràn lề; PDF đúng kích thước thật", "Chữ/logo sát đường xén, ảnh độ phân giải thấp", "Kiểm kích thước PDF (mm) và độ phân giải ảnh", "formats/in-an.md"],
+    ["Banner web/email", "Web 1920×600; email 1200×400; LinkedIn 1584×396", "Web: chữ giữa 60%; LinkedIn tránh avatar trái", "Một câu + nút", "Thông điệp chính + CTA", "Chữ ra sát hai mép (bị cắt trên điện thoại)", "Xem ở bề rộng điện thoại", "formats/banner.md"]
   ],
   "huong_dan": [
     ["HỆ THỐNG DESIGN ẢNH — Agent 02 Design"],

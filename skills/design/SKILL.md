@@ -27,7 +27,9 @@ Việc trực tiếp: Brief người dùng nói → ghi vào `jobs/DS/input/brie
 Thiếu thông tin thật sự cần (`dieu-phoi.md` §2) → hỏi một lượt. Ghi Design Brief vào `jobs/DS/input/design-brief.md` (việc nhỏ thì bỏ qua).
 
 ## 2. Brand + tài nguyên
-`ia brand show` + đọc `brand.md`, xem vài ảnh trong `anh-mau/`, `ia template list` (có mẫu hợp → `ia template use`, 1 phương án).
+`ia brand show` + đọc `brand.md` (cả mục "Style đã học"), xem vài ảnh trong `anh-mau/`, `ia template list` (có mẫu hợp → `ia template use`, 1 phương án).
+Có `hieu-qua-bao-cao.md` trong studio → ưu tiên mẫu/bố cục đang thắng cho cùng loại ấn phẩm, nói rõ trong lời trình.
+Slide/deck → skill **slide**. Ấn phẩm in → `formats/in-an.md`. Banner web/email → `formats/banner.md`. Cần ảnh trình bày trên điện thoại/laptop/sách → `ia mockup`.
 Tài nguyên: `ia assets find <từ khoá>` → không có thì Drive theo `media-assets.md` (Asset Retrieval). Ảnh người dùng gửi trong chat/đường dẫn → chép vào `jobs/DS/input/`.
 Mỗi ảnh: `ia inspect <ảnh>` + **mở ảnh xem** → quyết định vai trò: *chủ thể cần tách* · *nền tràn* · *ảnh trong khung* · *ảnh tư liệu*.
 Chỉ chủ thể mới `ia cutout <ảnh> --job DS` → mở `*-kiem-vien.png`. Viền xấu → `nguyen-tac.md` bảng "Khi công cụ không có / lỗi".

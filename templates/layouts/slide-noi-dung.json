@@ -1,0 +1,66 @@
+{
+ "name": "slide-noi-dung",
+ "mo_ta": "Slide nội dung — tiêu đề trên, danh sách hoặc đoạn ngắn trải cả khung",
+ "dung_cho": [
+  "slide"
+ ],
+ "variants": {
+  "16:9": {
+   "regions": {
+    "kicker": {
+     "box": [
+      0.06,
+      0.08,
+      0.5,
+      0.04
+     ],
+     "size": "sm"
+    },
+    "hook": {
+     "box": [
+      0.06,
+      0.13,
+      0.88,
+      0.13
+     ],
+     "size": "lg"
+    },
+    "list": {
+     "box": [
+      0.06,
+      0.32,
+      0.82,
+      0.54
+     ],
+     "size": "md"
+    },
+    "sub": {
+     "box": [
+      0.06,
+      0.32,
+      0.82,
+      0.54
+     ],
+     "size": "md"
+    },
+    "source": {
+     "box": [
+      0.06,
+      0.9,
+      0.6,
+      0.04
+     ],
+     "size": "xs"
+    },
+    "logo": {
+     "box": [
+      0.86,
+      0.9,
+      0.08,
+      0.05
+     ]
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,57 @@
+{
+ "name": "slide-ket",
+ "mo_ta": "Slide kết — câu chốt + CTA/liên hệ ở giữa",
+ "dung_cho": [
+  "slide"
+ ],
+ "variants": {
+  "16:9": {
+   "regions": {
+    "hook": {
+     "box": [
+      0.12,
+      0.26,
+      0.76,
+      0.24
+     ],
+     "size": "xl",
+     "style": {
+      "align": "center"
+     }
+    },
+    "sub": {
+     "box": [
+      0.16,
+      0.52,
+      0.68,
+      0.1
+     ],
+     "size": "md",
+     "style": {
+      "align": "center"
+     }
+    },
+    "cta": {
+     "box": [
+      0.3,
+      0.65,
+      0.4,
+      0.11
+     ],
+     "size": "md",
+     "style": {
+      "align": "center"
+     }
+    },
+    "logo": {
+     "box": [
+      0.43,
+      0.84,
+      0.14,
+      0.07
+     ]
+    }
+   }
+  }
+ }
+}

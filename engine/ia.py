@@ -35,7 +35,9 @@ Dựng & sửa
 
 Duyệt, xuất, bàn giao
   ia approve <DS> --v N [--huong b] --xac-nhan "<lời người dùng>"
-  ia export <DS> [--dinh-dang png,jpg,pdf] [--max-kb 500] · ia check <DS>
+  ia export <DS> [--dinh-dang png,jpg,pdf,pptx] [--max-kb 500] [--cmyk] · ia check <DS>
+  ia pptx <DS> [--v N]               PPTX chữ sửa được (nhập vào Canva/PowerPoint)
+  ia mockup <ảnh> --kieu dien-thoai|laptop|sach|the [--nen …] [--out …]
   ia publish <DS> · ia link <DS> --url <link Drive> --kiem '{…}'
   ia source-check <DS>
 
@@ -163,6 +165,15 @@ def main():
     if cmd in ("resize", "batch", "template", "layouts", "presets"):
         import adapt
         return adapt.main(cmd, rest)
+    if cmd == "pptx":
+        import pptx_export
+        return pptx_export.main(rest)
+    if cmd == "mockup":
+        import mockup
+        return mockup.main(rest)
+    if cmd == "hieu-qua":
+        import hieu_qua
+        return hieu_qua.main(rest)
     if cmd in ("research", "layout", "landing"):
         import web
         return web.main(cmd, rest)
